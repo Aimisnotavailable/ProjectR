@@ -25,6 +25,9 @@ body {
   position: absolute;
   width: 100px;
   height: 275px;
+  /* Vendor prefix for transform-origin */
+  -webkit-transform-origin: bottom center;
+      transform-origin: bottom center;
 }
 
 /* Flower SVG scaling */
@@ -47,35 +50,121 @@ body {
   border-radius: 4px;
   cursor: pointer;
   z-index: 10;
+  -webkit-transition: background 0.3s ease;
   transition: background 0.3s ease;
 }
 #restartBtn:hover {
   background: #666;
 }
 
-/* Optional glow pulse animation for the flower group */
-@keyframes glowPulse {
-  0% { filter: drop-shadow(0 0 4px #e74c3c); }
-  50% { filter: drop-shadow(0 0 12px #e74c3c); }
-  100% { filter: drop-shadow(0 0 4px #e74c3c); }
+/* Butterfly container covers the whole screen and doesn’t interfere with pointer events */
+#butterfly-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
 }
+
+/* Butterfly style:
+   - Uses an SVG background image (ensure butterfly.svg is at the proper path)
+   - Animated using keyframes (with vendor prefixes)
+*/
+.butterfly {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: url('butterfly.svg') no-repeat center center;
+  background-size: contain;
+  pointer-events: none;
+  -webkit-animation: flyButterfly linear infinite;
+          animation: flyButterfly linear infinite;
+}
+
+/* Keyframes for the butterfly flight with vendor prefixes */
+@-webkit-keyframes flyButterfly {
+  0% {
+    -webkit-transform: translate(0, 0) rotate(0deg);
+            transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    -webkit-transform: translate(var(--x-offset), var(--y-offset)) rotate(15deg);
+            transform: translate(var(--x-offset), var(--y-offset)) rotate(15deg);
+  }
+  100% {
+    -webkit-transform: translate(0, 0) rotate(0deg);
+            transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+@keyframes flyButterfly {
+  0% {
+    -webkit-transform: translate(0, 0) rotate(0deg);
+            transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    -webkit-transform: translate(var(--x-offset), var(--y-offset)) rotate(15deg);
+            transform: translate(var(--x-offset), var(--y-offset)) rotate(15deg);
+  }
+  100% {
+    -webkit-transform: translate(0, 0) rotate(0deg);
+            transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+/* Optional glow pulse animation for the flower group with vendor prefixes */
+@-webkit-keyframes glowPulse {
+  0% { 
+    -webkit-filter: drop-shadow(0 0 4px #e74c3c);
+            filter: drop-shadow(0 0 4px #e74c3c);
+  }
+  50% { 
+    -webkit-filter: drop-shadow(0 0 12px #e74c3c);
+            filter: drop-shadow(0 0 12px #e74c3c);
+  }
+  100% { 
+    -webkit-filter: drop-shadow(0 0 4px #e74c3c);
+            filter: drop-shadow(0 0 4px #e74c3c);
+  }
+}
+
+@keyframes glowPulse {
+  0% { 
+    -webkit-filter: drop-shadow(0 0 4px #e74c3c);
+            filter: drop-shadow(0 0 4px #e74c3c);
+  }
+  50% { 
+    -webkit-filter: drop-shadow(0 0 12px #e74c3c);
+            filter: drop-shadow(0 0 12px #e74c3c);
+  }
+  100% { 
+    -webkit-filter: drop-shadow(0 0 4px #e74c3c);
+            filter: drop-shadow(0 0 4px #e74c3c);
+  }
+}
+
 #flower {
-  animation: glowPulse 2s infinite;
+  -webkit-animation: glowPulse 2s infinite;
+          animation: glowPulse 2s infinite;
 }
 
 /* Flip horizontal wrapper */
 .flip-horizontal {
-  transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
 }
 
 /* Responsive adjustments */
 @media screen and (max-width: 600px) {
-  /* Override for flower containers */
   .flower-container {
-    position: fixed; /* so the containers are positioned relative to the viewport */
-    transform-origin: bottom center;
+    position: fixed;
+    -webkit-transform-origin: bottom center;
+        transform-origin: bottom center;
+    width: 80px;
+    height: 138px;
   }
-
   .flower-svg {
     max-width: 80px;
   }

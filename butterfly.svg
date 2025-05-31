@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="butterfly-svg" width="200" height="200" viewBox="0 0 200 200"
+     xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- A subtle glow filter for a soft, luminous effect -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Wrap the entire butterfly into a group that we can animate along a flight path -->
+  <g id="butterfly-group">
+    <!-- Overall Flight: a simple back-and-forth path with 1.5s duration for a faster pace -->
+    <animateMotion dur="1.5s" repeatCount="indefinite" path="M0,0 L30,0 L0,0"/>
+    
+    <!-- Butterfly Body -->
+    <rect x="95" y="70" width="10" height="60" fill="#c2185b"/>
+    
+    <!-- Left Upper Wing -->
+    <path id="left-upper-wing" transform="rotate(0,100,80)"
+          d="M100,80 C50,20 10,50 50,100 Q70,120 100,90 Z"
+          fill="#e91e63" stroke="#ad1457" stroke-width="2" filter="url(#glow)">
+      <animateTransform attributeName="transform"
+                        type="rotate"
+                        values="0 100 80; -15 100 80; 0 100 80; 15 100 80; 0 100 80"
+                        dur="0.5s"
+                        repeatCount="indefinite"/>
+    </path>
+    
+    <!-- Left Lower Wing -->
+    <path id="left-lower-wing" transform="rotate(0,100,130)"
+          d="M100,130 C50,170 10,140 50,110 Q70,100 100,120 Z"
+          fill="#e91e63" stroke="#ad1457" stroke-width="2" filter="url(#glow)">
+      <animateTransform attributeName="transform"
+                        type="rotate"
+                        values="0 100 130; -15 100 130; 0 100 130; 15 100 130; 0 100 130"
+                        dur="0.5s"
+                        repeatCount="indefinite"/>
+    </path>
+    
+    <!-- Right Upper Wing -->
+    <path id="right-upper-wing" transform="rotate(0,100,80)"
+          d="M100,80 C150,20 190,50 150,100 Q130,120 100,90 Z"
+          fill="#e91e63" stroke="#ad1457" stroke-width="2" filter="url(#glow)">
+      <animateTransform attributeName="transform"
+                        type="rotate"
+                        values="0 100 80; 15 100 80; 0 100 80; -15 100 80; 0 100 80"
+                        dur="0.5s"
+                        repeatCount="indefinite"/>
+    </path>
+    
+    <!-- Right Lower Wing -->
+    <path id="right-lower-wing" transform="rotate(0,100,130)"
+          d="M100,130 C150,170 190,140 150,110 Q130,100 100,120 Z"
+          fill="#e91e63" stroke="#ad1457" stroke-width="2" filter="url(#glow)">
+      <animateTransform attributeName="transform"
+                        type="rotate"
+                        values="0 100 130; 15 100 130; 0 100 130; -15 100 130; 0 100 130"
+                        dur="0.5s"
+                        repeatCount="indefinite"/>
+    </path>
+    
+    <!-- Left Antenna -->
+    <path d="M100,70 C90,40 70,40 65,70"
+          fill="none" stroke="#c2185b" stroke-width="2"/>
+    
+    <!-- Right Antenna -->
+    <path d="M110,70 C120,40 140,40 135,70"
+          fill="none" stroke="#c2185b" stroke-width="2"/>
+  </g>
+</svg>
