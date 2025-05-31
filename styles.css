@@ -71,9 +71,11 @@ body {
 /* Responsive adjustments */
 @media screen and (max-width: 600px) {
   .flower-container {
-    width: 80px;
-    height: 138px;
+    position: fixed;
+    width: 100px;
+    height: 275px;
   }
+
   .flower-svg {
     max-width: 80px;
   }

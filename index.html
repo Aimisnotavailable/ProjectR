@@ -6,6 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Flower Field</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Override the flower container positioning to be fixed so that transform values
+       computed in the script (based on viewport dimensions) correctly position them. */
+    .flower-container {
+      position: fixed;
+    }
+  </style>
 </head>
 <body>
   <div id="flower-field">
@@ -149,54 +156,53 @@
       </svg>
     </div>
 
-     <!-- Flower Container 3: Random Middle Curve 1 -->
+    <!-- Flower Container 4: Random Middle Curve 1 with Horizontal Flip -->
     <div class="flower-container" style="transform: translate(0, 0);">
       <div class="flip-horizontal">
-      <svg class="flower-svg" viewBox="100 0 200 550" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-        <!-- Stem: Random Middle Curve 1 -->
-        <path id="stem-path" d="M200,550 Q 250,450 200,300 Q 150,150 225,120"
-              stroke="#27ae60" stroke-width="4" fill="none" stroke-linecap="round" filter="url(#glow)" />
-        <!-- Flower Group -->
-        <g id="flower" transform="translate(70,100)" filter="url(#glow)">
-          <!-- Petals -->
-          <g id="petals">
-            <g class="petal" data-rotate="0" transform="rotate(0) scale(0)">
-              <path d="M0,0 C -20,-20 -20,-50 0,-50 C 20,-50 20,-20 0,0 Z"
-                    fill="#C9A9A6" stroke="#AA336A" stroke-width="2" />
+        <svg class="flower-svg" viewBox="100 0 200 550" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+              <feMerge>
+                <feMergeNode in="coloredBlur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <!-- Stem: Random Middle Curve 1 -->
+          <path id="stem-path" d="M200,550 Q 250,450 200,300 Q 150,150 225,120"
+                stroke="#27ae60" stroke-width="4" fill="none" stroke-linecap="round" filter="url(#glow)" />
+          <!-- Flower Group -->
+          <g id="flower" transform="translate(70,100)" filter="url(#glow)">
+            <!-- Petals -->
+            <g id="petals">
+              <g class="petal" data-rotate="0" transform="rotate(0) scale(0)">
+                <path d="M0,0 C -20,-20 -20,-50 0,-50 C 20,-50 20,-20 0,0 Z"
+                      fill="#C9A9A6" stroke="#AA336A" stroke-width="2" />
+              </g>
+              <g class="petal" data-rotate="72" transform="rotate(72) scale(0)">
+                <path d="M0,0 C -20,-20 -20,-50 0,-50 C 20,-50 20,-20 0,0 Z"
+                      fill="#C9A9A6" stroke="#AA336A" stroke-width="2" />
+              </g>
+              <g class="petal" data-rotate="144" transform="rotate(144) scale(0)">
+                <path d="M0,0 C -20,-20 -20,-50 0,-50 C 20,-50 20,-20 0,0 Z"
+                      fill="#C9A9A6" stroke="#AA336A" stroke-width="2" />
+              </g>
+              <g class="petal" data-rotate="216" transform="rotate(216) scale(0)">
+                <path d="M0,0 C -20,-20 -20,-50 0,-50 C 20,-50 20,-20 0,0 Z"
+                      fill="#C9A9A6" stroke="#AA336A" stroke-width="2" />
+              </g>
+              <g class="petal" data-rotate="288" transform="rotate(288) scale(0)">
+                <path d="M0,0 C -20,-20 -20,-50 0,-50 C 20,-50 20,-20 0,0 Z"
+                      fill="#C9A9A6" stroke="#AA336A" stroke-width="2" />
+              </g>
             </g>
-            <g class="petal" data-rotate="72" transform="rotate(72) scale(0)">
-              <path d="M0,0 C -20,-20 -20,-50 0,-50 C 20,-50 20,-20 0,0 Z"
-                    fill="#C9A9A6" stroke="#AA336A" stroke-width="2" />
-            </g>
-            <g class="petal" data-rotate="144" transform="rotate(144) scale(0)">
-              <path d="M0,0 C -20,-20 -20,-50 0,-50 C 20,-50 20,-20 0,0 Z"
-                    fill="#C9A9A6" stroke="#AA336A" stroke-width="2" />
-            </g>
-            <g class="petal" data-rotate="216" transform="rotate(216) scale(0)">
-              <path d="M0,0 C -20,-20 -20,-50 0,-50 C 20,-50 20,-20 0,0 Z"
-                    fill="#C9A9A6" stroke="#AA336A" stroke-width="2" />
-            </g>
-            <g class="petal" data-rotate="288" transform="rotate(288) scale(0)">
-              <path d="M0,0 C -20,-20 -20,-50 0,-50 C 20,-50 20,-20 0,0 Z"
-                    fill="#C9A9A6" stroke="#AA336A" stroke-width="2" />
-            </g>
+            <!-- Flower Core -->
+            <circle id="flower-core" cx="0" cy="0" r="8" fill="#c0392b" transform="scale(0)" />
           </g>
-          <!-- Flower Core -->
-          <circle id="flower-core" cx="0" cy="0" r="8" fill="#c0392b" transform="scale(0)" />
-        </g>
-      </svg>
+        </svg>
       </div>
     </div>
-
   </div>
 
   <button id="restartBtn">Restart</button>
