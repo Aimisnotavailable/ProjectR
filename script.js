@@ -30,50 +30,112 @@ const leafConfigs = [
   }
 ];
 
+// Use mobile dimensions for a “full” spread
+const MOBILE_CONTAINER_WIDTH = 80;    // should match your CSS media query constants
+const MOBILE_CONTAINER_HEIGHT = 138;  // should match your CSS media query constants
+const MOBILE_MARGIN = 5;              // horizontal margin between flowers
+const BOTTOM_MARGIN = 20;             // distance from the viewport bottom
+const RANDOM_Y_OFFSET_RANGE = 30;     // maximum random vertical offset (in pixels)
+const SCALE_FACTOR = 1;               // for the mobile look
+
+/**
+ * populateFlowerContainers:
+ * Ensures that there are at least a desired number of flower containers
+ * in the #flower-field by cloning from the pre-loaded ones.
+ */
+function populateFlowerContainers() {
+  const field = document.getElementById("flower-field");
+  const existingContainers = field.querySelectorAll(".flower-container");
+  let currentCount = existingContainers.length;
+  
+  // Based on available screen width and a minimum of 10 containers:
+  // Calculate desired count from mobile dimensions.
+  const desiredCount = Math.max(
+    20,
+    Math.floor(window.innerWidth / (MOBILE_CONTAINER_WIDTH + MOBILE_MARGIN))
+  );
+  
+  // If not enough containers, clone from the first one (or cycle through the 4 pre-loaded)
+  if (currentCount < desiredCount) {
+    // We can cycle through existing ones for variety if desired.
+    const templates = Array.from(existingContainers);
+    let templateIndex = 0;
+    for (let i = currentCount; i < desiredCount; i++) {
+      const clone = templates[templateIndex].cloneNode(true);
+      // Remove any inline transform styles so that they get recalculated.
+      clone.style.transform = "";
+      field.appendChild(clone);
+      templateIndex = (templateIndex + 1) % templates.length;
+    }
+  } else if (currentCount > desiredCount) {
+    // Optionally remove extras if desired.
+    for (let i = desiredCount; i < currentCount; i++) {
+      existingContainers[i].remove();
+    }
+  }
+}
+
 /**
  * adjustFlowerPositions:
- * Dynamically calculates and sets horizontal positions for all flower containers.
- * No vertical offset is applied (offsetY = 0).
+ * Positions each flower container evenly along the width,
+ * and gives each a random vertical offset so they are not all on a single line.
  */
 function adjustFlowerPositions() {
   const containers = document.querySelectorAll('.flower-container');
   const screenWidth = window.innerWidth;
   const screenHeight = window.innerHeight;
-  const bottomMargin = 20;
   
-  let containerWidth, containerHeight;
-  if (screenWidth < 600) {
-    containerWidth = 80;    // match mobile CSS
-    containerHeight = 138;
-  } else {
-    containerWidth = 100;
-    containerHeight = 275;
-  }
+  // Use mobile dimensions for layout.
+  const containerWidth = MOBILE_CONTAINER_WIDTH;
+  const containerHeight = MOBILE_CONTAINER_HEIGHT;
+  const margin = MOBILE_MARGIN;
   
-  // Decide on a scaling factor based on screen width.
-  let scaleFactor = 1;
-  if (screenWidth >= 600 && screenWidth < 1200) {
-    scaleFactor = 1.5;
-  } else if (screenWidth >= 1200) {
-    scaleFactor = 2;
-  }
+  // Total horizontal space taken by all containers.
+  const totalWidth = containers.length * containerWidth + (containers.length - 1) * margin;
+  const leftOffset = (screenWidth - totalWidth) / 2;
   
-  // Compute the same base offset for all flowers: center the container horizontally.
-  const offsetX = (screenWidth - containerWidth * scaleFactor) / 2;
-  // Place the bottom of the container 'bottomMargin' pixels above the bottom of the viewport.
-  const offsetY = screenHeight - (containerHeight * scaleFactor) - bottomMargin;
+  // Base vertical position where the bottom of a flower container should be,
+  // i.e. container bottom is BOTTOM_MARGIN above the viewport bottom.
+  const baseY = screenHeight - (containerHeight * SCALE_FACTOR) - BOTTOM_MARGIN;
   
-  // Apply the common position for ALL flower containers.
-  containers.forEach((container) => {
+  // Loop through each container:
+  containers.forEach((container, index) => {
+    // Evenly space horizontally.
+    const offsetX = leftOffset + index * (containerWidth + margin);
+    
+    // Add a random vertical offset (so they’re not in a perfect horizontal line).
+    // This subtracts a random amount (0 to RANDOM_Y_OFFSET_RANGE) from the base.
+    const randomYOffset = Math.random() * RANDOM_Y_OFFSET_RANGE;
+    const offsetY = baseY - randomYOffset;
+    
+    // Save these values in data attributes (if needed for further animations)
     container.dataset.baseX = offsetX;
     container.dataset.baseY = offsetY;
-    container.dataset.scale = scaleFactor;
+    container.dataset.scale = SCALE_FACTOR;
     
-    // All containers get the same transform so they all start from the same spot.
-    container.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scaleFactor})`;
+    // With transform-origin set to bottom center in CSS, this moves the container so that
+    // its bottom center is at (offsetX, offsetY).
+    container.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${SCALE_FACTOR})`;
   });
 }
 
+// ---
+// Integration with your existing code:
+// (Assuming you already have functions like animateAllFlowers() and startContainerSwayAnimation())
+
+// When the window loads, populate and reposition the flower containers.
+window.addEventListener("load", () => {
+  populateFlowerContainers();
+  adjustFlowerPositions();
+  animateAllFlowers();
+  startContainerSwayAnimation();
+});
+
+// Re-calculate positions (and re-populate if necessary) on resize.
+window.addEventListener("resize", () => {
+  populateFlowerContainers();
+  adjustFlowerPositions();
+});
 
 /**
  * computeLeafTransform:
