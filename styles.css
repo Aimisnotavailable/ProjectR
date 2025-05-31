@@ -70,10 +70,10 @@ body {
 
 /* Responsive adjustments */
 @media screen and (max-width: 600px) {
+  /* Override for flower containers */
   .flower-container {
     position: fixed;
-    width: 100px;
-    height: 275px;
+    transform-origin: bottom center;
   }
 
   .flower-svg {

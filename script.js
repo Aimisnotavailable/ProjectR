@@ -39,36 +39,41 @@ function adjustFlowerPositions() {
   const containers = document.querySelectorAll('.flower-container');
   const screenWidth = window.innerWidth;
   const screenHeight = window.innerHeight;
-  const margin = 10;
-  const N = containers.length;
-  const containerWidth = 100;   // As defined in your CSS (.flower-container width)
-  const containerHeight = 275;  // As defined in your CSS (.flower-container height)
-  
-  // Total width spans all containers plus margin between them.
-  const totalWidth = N * containerWidth + (N - 1) * margin;
-  const leftOffset = (screenWidth - totalWidth) / 2;
-  
-  // Choose a scale factor based on screen width.
-  let scaleFactor;
-  if (screenWidth < 600) {
-    scaleFactor = 1;      // Small screens: base scale.
-  } else if (screenWidth < 1200) {
-    scaleFactor = 1.5;    // Medium screens.
-  } else {
-    scaleFactor = 2;      // Large screens: 200% scale.
-  }
-  
-  // Calculate vertical offset so that the bottom of the container is 20px from the bottom of the viewport.
   const bottomMargin = 20;
   
-  offsets = []
+  // Use matching dimensions for mobile vs. desktop.
+  let containerWidth, containerHeight, margin;
+  if (screenWidth < 600) {
+    containerWidth = 80;   // smaller width on mobile (matches CSS)
+    containerHeight = 138; // smaller height on mobile (matches CSS)
+    margin = 5;            // adjust margin as needed on mobile
+  } else {
+    containerWidth = 100;
+    containerHeight = 275;
+    margin = 10;
+  }
+  
+  const N = containers.length;
+  // Total width is the sum of all flower widths plus the spaces in between.
+  const totalWidth = N * containerWidth + (N - 1) * margin;
+  // Center the field horizontally.
+  const leftOffset = (screenWidth - totalWidth) / 2;
+  
+  // Decide on a scale factor.
+  let scaleFactor = 1;
+  if (screenWidth >= 600 && screenWidth < 1200) {
+    scaleFactor = 1.5;
+  } else if (screenWidth >= 1200) {
+    scaleFactor = 2;
+  }
+  
+  // Calculate vertical offset so that (after scaling) the container’s bottom
+  // is 20px from the viewport bottom.
+  const offsetY = screenHeight - (containerHeight * scaleFactor) - bottomMargin;
+  
   containers.forEach((container, index) => {
-    let offsetX = index < 2 
-  ? leftOffset + index * (containerWidth + margin)
-  : leftOffset + 50;
-
-    // offsetY arranges the container's bottom edge (containerHeight * scale) 20px above the viewport bottom.
-    let offsetY = screenHeight - (containerHeight * scaleFactor) - bottomMargin;
+    // Position each container with equal spacing.
+    const offsetX = leftOffset + index * (containerWidth + margin);
     
     container.dataset.baseX = offsetX;
     container.dataset.baseY = offsetY;
@@ -77,8 +82,6 @@ function adjustFlowerPositions() {
     container.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scaleFactor})`;
   });
 }
-
-
 
 /**
  * computeLeafTransform:
