@@ -72,7 +72,7 @@ body {
 @media screen and (max-width: 600px) {
   /* Override for flower containers */
   .flower-container {
-    position: fixed;
+    position: fixed; /* so the containers are positioned relative to the viewport */
     transform-origin: bottom center;
   }
 

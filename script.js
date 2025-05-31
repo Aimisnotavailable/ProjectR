@@ -41,25 +41,16 @@ function adjustFlowerPositions() {
   const screenHeight = window.innerHeight;
   const bottomMargin = 20;
   
-  // Use matching dimensions for mobile vs. desktop.
-  let containerWidth, containerHeight, margin;
+  let containerWidth, containerHeight;
   if (screenWidth < 600) {
-    containerWidth = 80;   // smaller width on mobile (matches CSS)
-    containerHeight = 138; // smaller height on mobile (matches CSS)
-    margin = 5;            // adjust margin as needed on mobile
+    containerWidth = 80;    // match mobile CSS
+    containerHeight = 138;
   } else {
     containerWidth = 100;
     containerHeight = 275;
-    margin = 10;
   }
   
-  const N = containers.length;
-  // Total width is the sum of all flower widths plus the spaces in between.
-  const totalWidth = N * containerWidth + (N - 1) * margin;
-  // Center the field horizontally.
-  const leftOffset = (screenWidth - totalWidth) / 2;
-  
-  // Decide on a scale factor.
+  // Decide on a scaling factor based on screen width.
   let scaleFactor = 1;
   if (screenWidth >= 600 && screenWidth < 1200) {
     scaleFactor = 1.5;
@@ -67,21 +58,22 @@ function adjustFlowerPositions() {
     scaleFactor = 2;
   }
   
-  // Calculate vertical offset so that (after scaling) the container’s bottom
-  // is 20px from the viewport bottom.
+  // Compute the same base offset for all flowers: center the container horizontally.
+  const offsetX = (screenWidth - containerWidth * scaleFactor) / 2;
+  // Place the bottom of the container 'bottomMargin' pixels above the bottom of the viewport.
   const offsetY = screenHeight - (containerHeight * scaleFactor) - bottomMargin;
   
-  containers.forEach((container, index) => {
-    // Position each container with equal spacing.
-    const offsetX = leftOffset + index * (containerWidth + margin);
-    
+  // Apply the common position for ALL flower containers.
+  containers.forEach((container) => {
     container.dataset.baseX = offsetX;
     container.dataset.baseY = offsetY;
     container.dataset.scale = scaleFactor;
     
+    // All containers get the same transform so they all start from the same spot.
     container.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scaleFactor})`;
   });
 }
+
 
 /**
  * computeLeafTransform:
