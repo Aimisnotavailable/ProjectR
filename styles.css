@@ -68,10 +68,15 @@ body {
   z-index: 2;
 }
 
+/* .butterfly-main{
+ transform: scaleX(-1); 
+} */
+
 /* Butterfly style:
    - Uses an SVG background image (ensure butterfly.svg is at the proper path)
    - Animated using keyframes (with vendor prefixes)
 */
+
 .butterfly {
   position: absolute;
   width: 50px;
@@ -173,4 +178,97 @@ body {
     right: 10px;
     padding: 6px 10px;
   }
+}
+
+.butterfly-main{
+  transform: scaleX(-1);
+}
+
+/* Book Flip Letter Card */
+
+/* The letter card container starts at 300px (one page) then expands to 600px when open */
+.letter-card {
+  width: 300px;
+  height: 400px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  perspective: 1200px;
+  overflow: hidden;
+  transition: width 0.8s ease;
+  background: #fff;
+  z-index: 10;
+}
+
+.letter-card.open {
+  width: 600px;
+}
+
+/* The container for both pages (always 600px wide) */
+.pages-container {
+  position: relative;
+  width: 600px;
+  height: 100%;
+}
+
+/* The left page (page one) occupies the left 300px */
+.left-page,
+.right-page {
+  position: absolute;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+
+/* Left page positioned on the left with its pivot set to the right edge */
+.left-page {
+  left: 0;
+  transform-origin: right;
+  transition: transform 0.8s ease;
+}
+
+/* The left page has two faces: front and back */
+.left-page .face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-page .face.back {
+  /* Back face is rotated so it appears correct when the page flips */
+  transform: rotateY(180deg);
+}
+
+/* In the closed state the left page shows its front face normally */
+.left-page {
+  transform: rotateY(0deg);
+}
+
+/* When open, the left page flips along its right edge to reveal its backside */
+.letter-card.open .left-page {
+  transform: rotateY(-180deg);
+}
+
+/* The right page occupies the right 300px and is hidden when closed */
+.right-page {
+  right: 0;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  border-left: 1px solid #ccc;
+}
+
+.letter-card.open .right-page {
+  opacity: 1;
 }
