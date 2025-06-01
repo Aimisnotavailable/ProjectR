@@ -1,4 +1,4 @@
-// letter.js
+// scripts/letter.js
 document.addEventListener('DOMContentLoaded', function() {
   const letterCard = document.getElementById('letter-card');
 

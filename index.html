@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <!-- Mobile-friendly viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Flower Field with Book Flip Letter Card</title>
+  <title>Flower Field with Book-Flip Letter Card</title>
   <link rel="stylesheet" href="styles.css" />
   <!-- Inline override to ensure flower containers are fixed -->
   <style>
@@ -115,26 +115,20 @@
   </div>
 
   <!-- Book-Style Letter Card -->
-  <!-- Closed state: displays as a single page (page one, 300px wide)
-       Open state: card expands to 600px and the left page flips, revealing page two -->
-  <div class="letter-card" id="letter-card">
+  <!-- The container always measures 600px (full book size), but in its closed state the pages are shifted
+       so only the left page (page one) is visible. On hover, the container reveals both pages and the left page flips. -->
+  <div class="letter-card">
+  <div class="inner-wrapper">
     <div class="pages-container">
       <div class="left-page">
-        <div class="face front">
-          <h2>Page One</h2>
-          <p>This is the content on page one.</p>
-        </div>
-        <div class="face back">
-          <!-- Back of page one (could be styled differently if desired) -->
-          <h2></h2>
-        </div>
+        <div class="face front">Left Page Front</div>
+        <div class="face back">Left Page Back</div>
       </div>
-      <div class="right-page">
-        <h2>Page Two</h2>
-        <p>This is the content on page two.</p>
-      </div>
+      <div class="right-page">Right Page Content</div>
     </div>
   </div>
+</div>
+
 
   <!-- Butterfly Elements -->
   <div id="butterfly-container"></div>
@@ -146,6 +140,7 @@
   <button id="restartBtn">Restart</button>
 
   <!-- JavaScript Files -->
+  <!-- Note: letter.js is now migrated to the scripts folder -->
   <script src="./script/letter.js"></script>
   <script type="module" src="./script/script.js"></script>
 </body>

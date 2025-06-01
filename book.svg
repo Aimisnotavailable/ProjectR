@@ -1,0 +1,63 @@
+<svg id="bookSvg" width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    /* The left page flips around its right edge (using 100% horizontal and 50% vertical as the pivot) */
+    #leftPage {
+      transform-origin: 100% 50%;
+      transition: transform 0.8s ease;
+      transform-style: preserve-3d;
+    }
+    /* Both faces of the left page hide their backfaces */
+    .page-face {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    /* The back face is pre-rotated, so it shows when the group rotates */
+    #leftPage .back {
+      transform: rotateY(180deg);
+    }
+    /* The right page is initially hidden */
+    #rightPage {
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    /* On hover, the left page rotates to flip open ... */
+    svg:hover #leftPage {
+      transform: rotateY(180deg);
+    }
+    /* ... and the right page fades in */
+    svg:hover #rightPage {
+      opacity: 1;
+    }
+  </style>
+  
+  <!-- Background of the book -->
+  <rect x="0" y="0" width="600" height="400" fill="#f8f8f8"/>
+  <!-- Spine line of the book -->
+  <line x1="300" y1="0" x2="300" y2="400" stroke="#ccc" stroke-width="2"/>
+  
+  <!-- Right page: initially hidden (opacity 0) -->
+  <g id="rightPage">
+    <rect x="300" y="0" width="300" height="400" fill="#fff" stroke="#ddd" stroke-width="2"/>
+    <text x="450" y="200" font-size="24" text-anchor="middle" fill="#333" dominant-baseline="middle">
+      Right Page
+    </text>
+  </g>
+  
+  <!-- Left page group with two faces: -->
+  <g id="leftPage">
+    <!-- Front face: visible when the book is closed -->
+    <g class="page-face front">
+      <rect x="0" y="0" width="300" height="400" fill="#fff" stroke="#ddd" stroke-width="2"/>
+      <text x="150" y="200" font-size="24" text-anchor="middle" fill="#333" dominant-baseline="middle">
+        Cover
+      </text>
+    </g>
+    <!-- Back face: revealed when the left page flips around -->
+    <g class="page-face back">
+      <rect x="0" y="0" width="300" height="400" fill="#f0f0f0" stroke="#ddd" stroke-width="2"/>
+      <text x="150" y="200" font-size="24" text-anchor="middle" fill="#333" dominant-baseline="middle">
+        Left Page
+      </text>
+    </g>
+  </g>
+</svg>
