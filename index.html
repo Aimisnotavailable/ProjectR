@@ -28,13 +28,10 @@
             </feMerge>
           </filter>
         </defs>
-        <!-- Stem -->
         <path id="stem-path" d="M200,550 Q 100,400 80,300 Q 60,200 80,180"
               stroke="#27ae60" stroke-width="4" fill="none" stroke-linecap="round"
               filter="url(#glow)" />
-        <!-- Flower Group -->
         <g id="flower" transform="translate(70,100)" filter="url(#glow)">
-          <!-- Petals -->
           <g id="petals">
             <g class="petal" data-rotate="0" transform="rotate(0) scale(0)">
               <path d="M0,0 C -20,-20 -20,-50 0,-50 C 20,-50 20,-20 0,0 Z"
@@ -57,7 +54,6 @@
                     fill="#C9A9A6" stroke="#AA336A" stroke-width="2" />
             </g>
           </g>
-          <!-- Flower Core -->
           <circle id="flower-core" cx="0" cy="0" r="8" fill="#c0392b" transform="scale(0)" />
         </g>
       </svg>
@@ -76,13 +72,10 @@
               </feMerge>
             </filter>
           </defs>
-          <!-- Stem -->
           <path id="stem-path" d="M200,550 Q 100,400 80,300 Q 60,200 70,100"
                 stroke="#27ae60" stroke-width="4" fill="none" stroke-linecap="round"
                 filter="url(#glow)" />
-          <!-- Flower Group -->
           <g id="flower" transform="translate(70,100)" filter="url(#glow)">
-            <!-- Petals -->
             <g id="petals">
               <g class="petal" data-rotate="0" transform="rotate(0) scale(0)">
                 <path d="M0,0 C -20,-20 -20,-50 0,-50 C 20,-50 20,-20 0,0 Z"
@@ -105,7 +98,6 @@
                       fill="#C9A9A6" stroke="#AA336A" stroke-width="2" />
               </g>
             </g>
-            <!-- Flower Core -->
             <circle id="flower-core" cx="0" cy="0" r="8" fill="#c0392b" transform="scale(0)" />
           </g>
         </svg>
@@ -115,20 +107,60 @@
   </div>
 
   <!-- Book-Style Letter Card -->
-  <!-- The container always measures 600px (full book size), but in its closed state the pages are shifted
-       so only the left page (page one) is visible. On hover, the container reveals both pages and the left page flips. -->
-  <div class="letter-card">
-  <div class="inner-wrapper">
-    <div class="pages-container">
-      <div class="left-page">
-        <div class="face front">Left Page Front</div>
-        <div class="face back">Left Page Back</div>
-      </div>
-      <div class="right-page">Right Page Content</div>
-    </div>
+  <!-- The container (#letter-card) starts at 300px wide so only one page is visible. -->
+  <div id="letter-card">
+    <svg id="letter-svg" width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+      <style>
+        /* Left page settings */
+        #leftPage {
+          transform-origin: 100% 50%;
+          transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+          transform-style: preserve-3d;
+        }
+        .page-face {
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+        }
+        #leftPage .back {
+          transform: rotateY(180deg);
+        }
+        /* Right page settings */
+        #rightPage {
+          opacity: 0;
+          transition: opacity 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        /* When the container has the .open class */
+        #letter-card.open #leftPage {
+          transform: rotateY(180deg);
+        }
+        #letter-card.open #rightPage {
+          opacity: 1;
+        }
+      </style>
+      <rect x="0" y="0" width="600" height="400" fill="#f8f8f8"/>
+      <line x1="300" y1="0" x2="300" y2="400" stroke="#ccc" stroke-width="2"/>
+      <g id="rightPage">
+        <rect x="300" y="0" width="300" height="400" fill="#fff" stroke="#ddd" stroke-width="2"/>
+        <text x="450" y="200" font-size="24" text-anchor="middle" fill="#333" dominant-baseline="middle">
+          Right Page
+        </text>
+      </g>
+      <g id="leftPage">
+        <g class="page-face front">
+          <rect x="0" y="0" width="300" height="400" fill="#fff" stroke="#ddd" stroke-width="2"/>
+          <text x="150" y="200" font-size="24" text-anchor="middle" fill="#333" dominant-baseline="middle">
+            Cover
+          </text>
+        </g>
+        <g class="page-face back">
+          <rect x="0" y="0" width="300" height="400" fill="#f0f0f0" stroke="#ddd" stroke-width="2"/>
+          <text x="150" y="200" font-size="24" text-anchor="middle" fill="#333" dominant-baseline="middle">
+            Left Page
+          </text>
+        </g>
+      </g>
+    </svg>
   </div>
-</div>
-
 
   <!-- Butterfly Elements -->
   <div id="butterfly-container"></div>
@@ -140,7 +172,6 @@
   <button id="restartBtn">Restart</button>
 
   <!-- JavaScript Files -->
-  <!-- Note: letter.js is now migrated to the scripts folder -->
   <script src="./script/letter.js"></script>
   <script type="module" src="./script/script.js"></script>
 </body>

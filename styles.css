@@ -1,322 +1,120 @@
-/* ============================================
-   Basic Reset & Global Styles
-   ============================================ */
+/* Basic Reset & Global Styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-
 body {
-    background: #111;
-    font-family: sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
+  background: #111;
+  font-family: sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* ============================================
-   Flower Field Styles
-   ============================================ */
+/* Flower Field Styles */
 #flower-field {
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
 }
-
 .flower-container {
-    position: absolute;
-    width: 100px;
-    height: 275px;
-    /* Vendor prefix for transform-origin */
-    -webkit-transform-origin: bottom center;
-    transform-origin: bottom center;
+  width: 100px;
+  height: 275px;
+  transform-origin: bottom center;
 }
-
 .flower-svg {
-    width: 100%;
-    height: auto;
-    display: block;
-    max-width: 100px;
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 100px;
 }
 
-/* ============================================
-   Global Restart Button Styling
-   ============================================ */
+/* Book Container (Letter Card) Styles */
+#letter-card {
+  width: 300px; /* Start as one-page (cover only) */
+  overflow: hidden;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* Center and tilt the book */
+  transform: translate(-50%, -50%) rotate(-3deg);
+  transition: width 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55), transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 10;
+  /* Glow effect */
+  box-shadow: 0 0 20px 4px rgba(255, 255, 255, 0.4);
+}
+
+/* Expanded state: full 2-page book and level tilt */
+#letter-card.open {
+  width: 600px;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+/* Global Restart Button Styling */
 #restartBtn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 8px 12px;
-    background: #444;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    z-index: 10;
-    -webkit-transition: background 0.3s ease;
-    transition: background 0.3s ease;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 8px 12px;
+  background: #444;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.3s ease;
 }
-
 #restartBtn:hover {
-    background: #666;
+  background: #666;
 }
 
-/* ============================================
-   Butterfly Styles & Animations
-   ============================================ */
+/* Butterfly Styles & Animations */
 #butterfly-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
 }
-
 .butterfly {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background: url('butterfly.svg') no-repeat center center;
-    background-size: contain;
-    pointer-events: none;
-    -webkit-animation: flyButterfly linear infinite;
-    animation: flyButterfly linear infinite;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: url('butterfly.svg') no-repeat center center;
+  background-size: contain;
+  pointer-events: none;
+  animation: flyButterfly linear infinite;
 }
-
-@-webkit-keyframes flyButterfly {
-    0% {
-        -webkit-transform: translate(0, 0) rotate(0deg);
-        transform: translate(0, 0) rotate(0deg);
-    }
-
-    50% {
-        -webkit-transform: translate(var(--x-offset), var(--y-offset)) rotate(15deg);
-        transform: translate(var(--x-offset), var(--y-offset)) rotate(15deg);
-    }
-
-    100% {
-        -webkit-transform: translate(0, 0) rotate(0deg);
-        transform: translate(0, 0) rotate(0deg);
-    }
-}
-
 @keyframes flyButterfly {
-    0% {
-        -webkit-transform: translate(0, 0) rotate(0deg);
-        transform: translate(0, 0) rotate(0deg);
-    }
-
-    50% {
-        -webkit-transform: translate(var(--x-offset), var(--y-offset)) rotate(15deg);
-        transform: translate(var(--x-offset), var(--y-offset)) rotate(15deg);
-    }
-
-    100% {
-        -webkit-transform: translate(0, 0) rotate(0deg);
-        transform: translate(0, 0) rotate(0deg);
-    }
-}
-
-/* Glow Pulse Animation for Flower Group */
-@-webkit-keyframes glowPulse {
-    0% {
-        -webkit-filter: drop-shadow(0 0 4px #e74c3c);
-        filter: drop-shadow(0 0 4px #e74c3c);
-    }
-
-    50% {
-        -webkit-filter: drop-shadow(0 0 12px #e74c3c);
-        filter: drop-shadow(0 0 12px #e74c3c);
-    }
-
-    100% {
-        -webkit-filter: drop-shadow(0 0 4px #e74c3c);
-        filter: drop-shadow(0 0 4px #e74c3c);
-    }
-}
-
-@keyframes glowPulse {
-    0% {
-        -webkit-filter: drop-shadow(0 0 4px #e74c3c);
-        filter: drop-shadow(0 0 4px #e74c3c);
-    }
-
-    50% {
-        -webkit-filter: drop-shadow(0 0 12px #e74c3c);
-        filter: drop-shadow(0 0 12px #e74c3c);
-    }
-
-    100% {
-        -webkit-filter: drop-shadow(0 0 4px #e74c3c);
-        filter: drop-shadow(0 0 4px #e74c3c);
-    }
-}
-
-#flower {
-    -webkit-animation: glowPulse 2s infinite;
-    animation: glowPulse 2s infinite;
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(var(--x-offset), var(--y-offset)) rotate(15deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
 }
 
 /* Utility for Horizontal Flip */
 .flip-horizontal {
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
-}
-
-/* Responsive Adjustments */
-@media screen and (max-width: 600px) {
-    .flower-container {
-        position: fixed;
-        -webkit-transform-origin: bottom center;
-        transform-origin: bottom center;
-        width: 80px;
-        height: 138px;
-    }
-
-    .flower-svg {
-        max-width: 80px;
-    }
-
-    #restartBtn {
-        top: 10px;
-        right: 10px;
-        padding: 6px 10px;
-    }
-}
-
-.butterfly-main {
-    transform: scaleX(-1);
-}
-
-.letter-card {
-  width: 600px;
-  height: 400px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  perspective: 1200px;
-  -webkit-perspective: 1200px;
-  overflow: visible;
-  background: transparent;
-  z-index: 10;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-.inner-wrapper {
-  width: 300px;
-  height: 100%;
-  overflow: hidden;
-  transition: width 0.8s ease;
-}
-
-.letter-card:hover .inner-wrapper {
-  width: 600px;
-}
-
-.pages-container {
-  position: relative;
-  width: 600px;
-  height: 100%;
-}
-
-.left-page {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 300px;
-  height: 100%;
-  transform-style: preserve-3d;
-  transform-origin: right center;
-  transition: transform 0.8s ease;
-  will-change: transform;
-  z-index: 2;
-  transform: rotateY(0deg);
-}
-
-.left-page .face {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #fff;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.left-page .face.front {
-  border-right: 1px solid #ccc;
-}
-
-.left-page .face.back {
-  transform: rotateY(180deg);
-  background-color: #f0f0f0;
-  border-left: 1px solid #ccc;
-}
-
-.letter-card:hover .left-page {
-  transform: rotateY(180deg);
-}
-
-.right-page {
-  position: absolute;
-  top: 0;
-  left: 300px;
-  width: 300px;
-  height: 100%;
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-left: 1px solid #ccc;
-  padding: 20px;
-  box-sizing: border-box;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  opacity: 0;
-  transition: opacity 0.8s ease;
-  will-change: opacity;
-}
-
-.letter-card:hover .right-page {
-  opacity: 1;
-}
-
-.letter-card h2 {
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.letter-card p {
-  color: #555;
-  line-height: 1.5;
-  text-align: center;
+  transform: scaleX(-1);
 }
 
 @media screen and (max-width: 600px) {
-  .letter-card {
-    width: 90%;
-    height: auto;
+  .flower-container {
+    width: 80px;
+    height: 138px;
   }
-  .inner-wrapper {
-    width: 50%;
+  .flower-svg {
+    max-width: 80px;
   }
-  .pages-container {
-    width: 100%;
-  }
-  .left-page,
-  .right-page {
-    width: 50%;
-  }
-  .right-page {
-    left: 50%;
+  #restartBtn {
+    top: 10px;
+    right: 10px;
+    padding: 6px 10px;
   }
 }
