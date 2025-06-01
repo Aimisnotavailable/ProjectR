@@ -33,9 +33,11 @@ export function animateButterfly(butterfly) {
 
   // Apply the transformation.
   butterfly.style.transition = `transform ${duration}s ${easing}`;
+  butterfly.style.webkitTransition = `-webkit-transform ${duration}s ${easing}`;
   butterfly.style.transform = `translate(${newX}px, ${newY}px) rotate(${angle}deg)`;
+  butterfly.style.webkitTransform = `translate(${newX}px, ${newY}px) rotate(${angle}deg)`;
 
-  // Function for scheduling the next animation cycle.
+  // Schedule the next animation cycle.
   let triggered = false;
   const nextCycle = () => {
     if (!triggered) {
@@ -50,7 +52,7 @@ export function animateButterfly(butterfly) {
 
   // Listen for the transition end.
   const transitionHandler = function (e) {
-    if (e.propertyName === "transform") {
+    if (e.propertyName === "transform" || e.propertyName === "-webkit-transform") {
       butterfly.removeEventListener("transitionend", transitionHandler);
       nextCycle();
     }
@@ -63,9 +65,7 @@ export function animateButterfly(butterfly) {
 
 /**
  * spawnButterfliesSequentially:
- * Spawns all butterfly elements immediately. Each butterfly is placed off-screen
- * on one random side, then (after forcing a reflow and a slight delay) animateButterfly is called
- * so that they transition into view.
+ * Spawns all butterfly elements immediately, positioning them off-screen and then animating into view.
  */
 export function spawnButterfliesSequentially() {
   let container = document.getElementById("butterfly-container");
@@ -78,7 +78,8 @@ export function spawnButterfliesSequentially() {
     container.style.width = "100%";
     container.style.height = "100%";
     container.style.pointerEvents = "none";
-    container.style.zIndex = "2"; // Adjust z-index if needed.
+    // Updated the z-index so that butterflies render on top.
+    container.style.zIndex = "20";
     document.body.appendChild(container);
   } else {
     // Clear any previous butterflies.
@@ -104,6 +105,7 @@ export function spawnButterfliesSequentially() {
     let initX = spawnFromLeft ? -50 : window.innerWidth + 50;
     let initY = Math.random() * (window.innerHeight - 50);
     butterfly.style.transform = `translate(${initX}px, ${initY}px) rotate(0deg)`;
+    butterfly.style.webkitTransform = `translate(${initX}px, ${initY}px) rotate(0deg)`;
     butterfly.dataset.cx = initX;
     butterfly.dataset.cy = initY;
     butterfly.dataset.initial = "true"; // Mark as initial flight.

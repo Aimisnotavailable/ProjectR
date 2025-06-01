@@ -10,6 +10,8 @@
   <style>
     .flower-container {
       position: fixed;
+      -webkit-transform: translate(0, 0);
+      transform: translate(0, 0);
     }
   </style>
 </head>
@@ -17,7 +19,7 @@
   <!-- Flower Field -->
   <div id="flower-field">
     <!-- Flower Container 1: Stem Curving Left (Not flipped) -->
-    <div class="flower-container" style="transform: translate(50px, 100px);">
+    <div class="flower-container" style="transform: translate(50px, 100px) scale(1);">
       <svg class="flower-svg" viewBox="0 0 200 550" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <filter id="glow">
@@ -30,8 +32,8 @@
         </defs>
         <path id="stem-path" d="M200,550 Q 100,400 80,300 Q 60,200 80,180"
               stroke="#27ae60" stroke-width="4" fill="none" stroke-linecap="round"
-              filter="url(#glow)" />
-        <g id="flower" transform="translate(70,100)" filter="url(#glow)">
+              filter="url(#glow)" -webkit-filter="url(#glow)" />
+        <g id="flower" transform="translate(70,100)" filter="url(#glow)" -webkit-filter="url(#glow)">
           <g id="petals">
             <g class="petal" data-rotate="0" transform="rotate(0) scale(0)">
               <path d="M0,0 C -20,-20 -20,-50 0,-50 C 20,-50 20,-20 0,0 Z"
@@ -60,7 +62,7 @@
     </div>
 
     <!-- Flower Container 2: Stem Curving Left but Flipped Horizontally -->
-    <div class="flower-container" style="transform: translate(200px, 150px);">
+    <div class="flower-container" style="transform: translate(200px, 150px) scale(1);">
       <div class="flip-horizontal">
         <svg class="flower-svg" viewBox="0 0 200 550" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -74,8 +76,8 @@
           </defs>
           <path id="stem-path" d="M200,550 Q 100,400 80,300 Q 60,200 70,100"
                 stroke="#27ae60" stroke-width="4" fill="none" stroke-linecap="round"
-                filter="url(#glow)" />
-          <g id="flower" transform="translate(70,100)" filter="url(#glow)">
+                filter="url(#glow)" -webkit-filter="url(#glow)" />
+          <g id="flower" transform="translate(70,100)" filter="url(#glow)" -webkit-filter="url(#glow)">
             <g id="petals">
               <g class="petal" data-rotate="0" transform="rotate(0) scale(0)">
                 <path d="M0,0 C -20,-20 -20,-50 0,-50 C 20,-50 20,-20 0,0 Z"
@@ -114,8 +116,11 @@
         /* Left page settings */
         #leftPage {
           transform-origin: 100% 50%;
+          -webkit-transform-origin: 100% 50%;
           transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+          -webkit-transition: -webkit-transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
           transform-style: preserve-3d;
+          -webkit-transform-style: preserve-3d;
         }
         .page-face {
           backface-visibility: hidden;
@@ -123,15 +128,18 @@
         }
         #leftPage .back {
           transform: rotateY(180deg);
+          -webkit-transform: rotateY(180deg);
         }
         /* Right page settings */
         #rightPage {
           opacity: 0;
           transition: opacity 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+          -webkit-transition: opacity 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
         /* When the container has the .open class */
         #letter-card.open #leftPage {
           transform: rotateY(180deg);
+          -webkit-transform: rotateY(180deg);
         }
         #letter-card.open #rightPage {
           opacity: 1;

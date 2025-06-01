@@ -1,12 +1,18 @@
-// scripts/letter.js
 document.addEventListener('DOMContentLoaded', function() {
   const letterCard = document.getElementById('letter-card');
 
-  letterCard.addEventListener('mouseenter', function() {
+  function openLetter() {
     letterCard.classList.add('open');
-  });
+  }
 
-  letterCard.addEventListener('mouseleave', function() {
+  function closeLetter() {
     letterCard.classList.remove('open');
-  });
+  }
+
+  letterCard.addEventListener('mouseenter', openLetter);
+  letterCard.addEventListener('mouseleave', closeLetter);
+  
+  // Add touch support for Safari and other mobile devices.
+  letterCard.addEventListener('touchstart', openLetter);
+  letterCard.addEventListener('touchend', closeLetter);
 });

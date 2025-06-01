@@ -17,8 +17,7 @@ populateFlowerContainers();
 adjustFlowerPositions();
 resetAllFlowers();
 
-// When the book is hovered (opened), run the animations.
-letterCard.addEventListener("mouseenter", () => {
+function openLetter() {
   letterCard.classList.add("open");
 
   // Animate flowers and then spawn butterflies.
@@ -27,10 +26,9 @@ letterCard.addEventListener("mouseenter", () => {
   });
 
   startContainerSwayAnimation();
-});
+}
 
-// When mouse leaves the book, fully reset everything.
-letterCard.addEventListener("mouseleave", () => {
+function closeLetter() {
   letterCard.classList.remove("open");
 
   // Reset all flower animations and clear pending timeouts.
@@ -43,6 +41,7 @@ letterCard.addEventListener("mouseleave", () => {
   butterflyContainer.innerHTML = "";
   document.querySelectorAll(".butterfly").forEach(butterfly => {
     butterfly.style.transition = "none";
+    butterfly.style.webkitTransition = "none";
     butterfly.style.transform = "";
     butterfly.remove();
   });
@@ -50,14 +49,23 @@ letterCard.addEventListener("mouseleave", () => {
   // Reset any inline styles and extra classes on the stem paths.
   document.querySelectorAll('[id="stem-path"]').forEach((stem) => {
     stem.style.transition = "none";
+    stem.style.webkitTransition = "none";
     stem.style.strokeDasharray = "";
     stem.style.strokeDashoffset = "";
-    stem.className = ""; // Remove any extra classes.
+    stem.className = "";
   });
 
   // Reset flower container animations to a clean state.
   document.querySelectorAll(".flower-container").forEach(flower => {
     flower.style.transition = "none";
-    flower.className = "flower-container"; // Reset to original class.
+    flower.style.webkitTransition = "none";
+    flower.className = "flower-container";
   });
-});
+}
+
+letterCard.addEventListener("mouseenter", openLetter);
+letterCard.addEventListener("mouseleave", closeLetter);
+
+// Add touch events for mobile Safari support.
+letterCard.addEventListener("touchstart", openLetter);
+letterCard.addEventListener("touchend", closeLetter);
