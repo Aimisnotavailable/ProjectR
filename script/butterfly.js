@@ -1,5 +1,3 @@
-// script/butterfly.js
-
 /**
  * animateButterfly:
  * Animates a butterfly element to fly smoothly to a random destination.
@@ -65,7 +63,9 @@ export function animateButterfly(butterfly) {
 
 /**
  * spawnButterfliesSequentially:
- * Spawns butterfly elements one by one so they animate into view.
+ * Spawns all butterfly elements immediately. Each butterfly is placed off-screen
+ * on one random side, then (after forcing a reflow and a slight delay) animateButterfly is called
+ * so that they transition into view.
  */
 export function spawnButterfliesSequentially() {
   let container = document.getElementById("butterfly-container");
@@ -90,31 +90,34 @@ export function spawnButterfliesSequentially() {
     MIN_BUTTERFLY_COUNT,
     Math.floor(window.innerWidth / 100)
   );
-  const spawnDelay = 500; // Delay between spawns.
 
+  // Spawn all butterflies immediately.
   for (let i = 0; i < butterflyCount; i++) {
+    const butterfly = document.createElement("div");
+    butterfly.classList.add("butterfly");
+    butterfly.style.width = "50px";
+    butterfly.style.height = "50px";
+    butterfly.style.position = "absolute";
+
+    // Randomly decide off-screen spawn (left or right).
+    let spawnFromLeft = Math.random() < 0.5;
+    let initX = spawnFromLeft ? -50 : window.innerWidth + 50;
+    let initY = Math.random() * (window.innerHeight - 50);
+    butterfly.style.transform = `translate(${initX}px, ${initY}px) rotate(0deg)`;
+    butterfly.dataset.cx = initX;
+    butterfly.dataset.cy = initY;
+    butterfly.dataset.initial = "true"; // Mark as initial flight.
+
+    // Set the butterfly background image (ensure the path is correct).
+    butterfly.style.background = "url('./imgs/butterfly.gif') no-repeat center center";
+    butterfly.style.backgroundSize = "contain";
+
+    container.appendChild(butterfly);
+    // Force the browser to apply the initial off-screen position.
+    butterfly.getBoundingClientRect();
+    // Start the animation after a short delay.
     setTimeout(() => {
-      const butterfly = document.createElement("div");
-      butterfly.classList.add("butterfly");
-      butterfly.style.width = "50px";
-      butterfly.style.height = "50px";
-      butterfly.style.position = "absolute";
-
-      // Randomly decide off-screen spawn (left or right).
-      let spawnFromLeft = Math.random() < 0.5;
-      let initX = spawnFromLeft ? -50 : window.innerWidth + 50;
-      let initY = Math.random() * (window.innerHeight - 50);
-      butterfly.style.transform = `translate(${initX}px, ${initY}px) rotate(0deg)`;
-      butterfly.dataset.cx = initX;
-      butterfly.dataset.cy = initY;
-      butterfly.dataset.initial = "true"; // Mark as initial flight.
-
-      // Set the butterfly background image (ensure the path is correct).
-      butterfly.style.background = "url('./imgs/butterfly.gif') no-repeat center center";
-      butterfly.style.backgroundSize = "contain";
-
-      container.appendChild(butterfly);
       animateButterfly(butterfly);
-    }, i * spawnDelay);
+    }, 50);
   }
 }

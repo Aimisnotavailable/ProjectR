@@ -1,5 +1,3 @@
-// script/flower.js
-
 /*********************** Flower Constants *************************/
 
 // Mobile flower dimensions (should correspond with your CSS media query)
@@ -20,6 +18,11 @@ export const FLOWER_GROW_DELAY        = 3200;
 export const PETAL_STAGGER_DELAY      = 200;
 export const PETAL_ANIMATION_DURATION = 500;
 export const CORE_ANIMATION_DELAY     = PETAL_STAGGER_DELAY * 5;
+
+/*********************** Global Variables *************************/
+
+// Global array to track timeouts for flower animations.
+const flowerTimeouts = [];
 
 /*********************** Flower Functions *************************/
 
@@ -90,24 +93,40 @@ export function adjustFlowerPositions() {
 /**
  * animateFlower:
  * Animates a flower container by drawing its stem and growing its petals/core.
+ * This function only does work if the letter-card is open.
  */
 function animateFlower(container) {
-  const stem = container.querySelector("#stem-path");
+  // Guard: only animate if the book (letter-card) is open.
+  const letterCard = document.getElementById("letter-card");
+  if (!letterCard || !letterCard.classList.contains("open")) return;
+  
+  // Use an attribute selector to fetch the stem element from this container.
+  const stem = container.querySelector('[id="stem-path"]');
   if (!stem) return;
   
+  // Reset stem state: set both inline style and attribute so that the stem is not visible.
   stem.style.transition = "none";
   const pathLength = stem.getTotalLength();
   stem.style.strokeDasharray = pathLength;
   stem.style.strokeDashoffset = pathLength;
+  stem.setAttribute("stroke-dasharray", pathLength);
+  stem.setAttribute("stroke-dashoffset", pathLength);
+  
   // Force reflow.
   stem.getBoundingClientRect();
   
-  setTimeout(() => {
+  // Animate the stem drawing.
+  const timeout1 = setTimeout(() => {
+    if (!letterCard.classList.contains("open")) return;
     stem.style.transition = `stroke-dashoffset ${STEM_DRAW_DURATION}ms ease-out`;
     stem.style.strokeDashoffset = "0";
+    stem.setAttribute("stroke-dashoffset", "0");
   }, STEM_INITIAL_DELAY);
+  flowerTimeouts.push(timeout1);
   
-  setTimeout(() => {
+  // Animate petals and core after delay.
+  const timeout2 = setTimeout(() => {
+    if (!letterCard.classList.contains("open")) return;
     const tipPos = stem.getPointAtLength(pathLength);
     const flowerGroup = container.querySelector("#flower");
     if (flowerGroup) {
@@ -120,19 +139,22 @@ function animateFlower(container) {
     petals.forEach((petal, index) => {
       petal.style.transition = `transform ${PETAL_ANIMATION_DURATION}ms ease-out`;
       const angle = petal.dataset.rotate || "0";
-      setTimeout(() => {
+      const t = setTimeout(() => {
         petal.setAttribute("transform", `rotate(${angle}) scale(1)`);
       }, PETAL_STAGGER_DELAY * index);
+      flowerTimeouts.push(t);
     });
     // Animate the flower core.
     const core = container.querySelector("#flower-core");
     if (core) {
       core.style.transition = `transform ${PETAL_ANIMATION_DURATION}ms ease-out`;
-      setTimeout(() => {
+      const t2 = setTimeout(() => {
         core.setAttribute("transform", "scale(1)");
       }, CORE_ANIMATION_DELAY);
+      flowerTimeouts.push(t2);
     }
   }, FLOWER_GROW_DELAY);
+  flowerTimeouts.push(timeout2);
 }
 
 /**
@@ -144,13 +166,14 @@ export function animateAllFlowers(callback) {
   let completed = 0;
   containers.forEach(container => {
     animateFlower(container);
-    // Assuming the animation finishes after FLOWER_GROW_DELAY + CORE_ANIMATION_DELAY.
-    setTimeout(() => {
+    // Assuming the full animation takes FLOWER_GROW_DELAY + CORE_ANIMATION_DELAY.
+    const t = setTimeout(() => {
       completed++;
       if (completed === containers.length && typeof callback === "function") {
         callback();
       }
     }, FLOWER_GROW_DELAY + CORE_ANIMATION_DELAY);
+    flowerTimeouts.push(t);
   });
 }
 
@@ -158,10 +181,10 @@ export function animateAllFlowers(callback) {
  * startContainerSwayAnimation:
  * Applies a continuous gentle sway on each flower container.
  */
+let swayAnimationFrameId = null;
 export function startContainerSwayAnimation() {
   const containers = document.querySelectorAll('.flower-container');
   containers.forEach(container => {
-    // Set a random phase for variation.
     container.dataset.phase = Math.random() * 2 * Math.PI;
   });
   
@@ -179,7 +202,6 @@ export function startContainerSwayAnimation() {
       const scale = parseFloat(container.dataset.scale) || 1;
       const phase = parseFloat(container.dataset.phase) || 0;
       
-      // Calculate horizontal oscillation.
       const offsetX = translationAmplitude * Math.sin((timestamp / translationPeriod) * 2 * Math.PI + phase);
       let rotationEffect = 0;
       if (elapsed < rotationDecayDuration) {
@@ -189,9 +211,20 @@ export function startContainerSwayAnimation() {
       
       container.style.transform = `translate(${baseX + offsetX}px, ${baseY}px) scale(${scale}) rotate(${rotationEffect}deg)`;
     });
-    requestAnimationFrame(updateContainer);
+    swayAnimationFrameId = requestAnimationFrame(updateContainer);
   }
-  requestAnimationFrame(updateContainer);
+  swayAnimationFrameId = requestAnimationFrame(updateContainer);
+}
+
+/**
+ * cancelContainerSwayAnimation:
+ * Cancels the ongoing continuous sway animation.
+ */
+export function cancelContainerSwayAnimation() {
+  if (swayAnimationFrameId !== null) {
+    cancelAnimationFrame(swayAnimationFrameId);
+    swayAnimationFrameId = null;
+  }
 }
 
 /**
@@ -199,12 +232,14 @@ export function startContainerSwayAnimation() {
  * Resets flower animations so they can be restarted.
  */
 function resetFlower(container) {
-  const stem = container.querySelector("#stem-path");
+  const stem = container.querySelector('[id="stem-path"]');
   if (!stem) return;
   stem.style.transition = "none";
   const pathLength = stem.getTotalLength();
   stem.style.strokeDasharray = pathLength;
   stem.style.strokeDashoffset = pathLength;
+  stem.setAttribute("stroke-dasharray", pathLength);
+  stem.setAttribute("stroke-dashoffset", pathLength);
   
   const petals = container.querySelectorAll("#petals .petal");
   petals.forEach(petal => {
@@ -223,7 +258,7 @@ function resetFlower(container) {
 export function resetAllFlowers() {
   const containers = document.querySelectorAll(".flower-container");
   containers.forEach(container => resetFlower(container));
-  setTimeout(() => {
-    containers.forEach(container => animateFlower(container));
-  }, 100);
+  // Clear all pending timeouts.
+  flowerTimeouts.forEach(timeoutID => clearTimeout(timeoutID));
+  flowerTimeouts.length = 0;
 }
