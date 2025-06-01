@@ -128,7 +128,9 @@ body {
   -webkit-transform: scaleX(-1);
 }
 
+/* Mobile Adjustments */
 @media screen and (max-width: 600px) {
+  /* Adjust flower dimensions */
   .flower-container {
     width: 80px;
     height: 138px;
@@ -136,9 +138,27 @@ body {
   .flower-svg {
     max-width: 80px;
   }
+  /* Adjust Restart Button */
   #restartBtn {
     top: 10px;
     right: 10px;
     padding: 6px 10px;
+  }
+  /* Scale Letter Card for Mobile View */
+  #letter-card {
+    width: 90vw; /* Use 90% of viewport width */
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-3deg);
+    -webkit-transform: translate(-50%, -50%) rotate(-3deg);
+  }
+  #letter-card.open {
+    width: 90vw;  /* Keep the open card within mobile view */
+    transform: translate(-50%, -50%) rotate(0deg);
+    -webkit-transform: translate(-50%, -50%) rotate(0deg);
+  }
+  /* Ensure the SVG scales responsively */
+  #letter-svg {
+    width: 100%;
+    height: auto;
   }
 }
