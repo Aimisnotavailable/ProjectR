@@ -164,3 +164,29 @@ body {
     height: auto;
   }
 }
+
+/* Define the pulsating glow animation for the petals */
+@keyframes petalGlow {
+  0% {
+    filter: drop-shadow(0 0 16px rgba(199, 21, 133, 0.7)); /* Dark Pink */
+    -webkit-filter: drop-shadow(0 0 2px rgba(199, 21, 133, 0.7));
+  }
+  33% {
+    filter: drop-shadow(0 0 16px rgba(255, 182, 193, 0.7)); /* Light Pink */
+    -webkit-filter: drop-shadow(0 0 2px rgba(255, 182, 193, 0.7));
+  }
+  66% {
+    filter: drop-shadow(0 0 16px rgba(199, 21, 133, 0.7)); /* Dark Pink */
+    -webkit-filter: drop-shadow(0 0 2px rgba(199, 21, 133, 0.7));
+  }
+  100% {
+    filter: drop-shadow(0 0 16px rgba(255, 182, 193, 0.7)); /* Light Pink */
+    -webkit-filter: drop-shadow(0 0 2px rgba(255, 182, 193, 0.7));
+  }
+}
+
+/* Apply the glow animation only to the petals */
+.petal {
+  animation: petalGlow 2s infinite;
+  -webkit-animation: petalGlow 2s infinite;
+}
