@@ -1,143 +1,186 @@
 // carousel.js
 
-// The currently selected item index (0-based). We want the 4th item (index 3)
-// to be selected initially so that there are two items before and two after.
-let selectedIndex = 3;
+// ---------- Configuration ----------
+// Full array of image URLs (adjust as needed)
+const fullImages = [
+  "https://cdn.pixabay.com/photo/2017/08/15/08/23/stars-2643089__340.jpg",
+  "https://cdn.pixabay.com/photo/2012/11/28/11/28/rocket-launch-67723__340.jpg",
+  "https://cdn.pixabay.com/photo/2018/08/15/13/10/galaxy-3608029_960_720.jpg",
+  "https://cdn.pixabay.com/photo/2020/06/17/09/28/wormhole-5308810__340.jpg",
+  "https://cdn.pixabay.com/photo/2016/11/18/22/58/stars-1837306__340.jpg",
+  "https://cdn.pixabay.com/photo/2017/02/09/09/11/starry-sky-2051448__340.jpg",
+  "https://cdn.pixabay.com/photo/2011/12/15/11/37/galaxy-11188__340.jpg",
+  "https://cdn.pixabay.com/photo/2011/12/15/11/32/pismis-24-11186__340.jpg"
+];
+const totalImages = fullImages.length;
+/*
+We want to show five slots (visible): their conceptual offsets are:
+  -2, -1, 0, +1, +2,
+with the center (offset 0) being selected.
+For our track approach, we also render an extra right item corresponding to offset +3.
+*/
+// We'll use 6 items in the track, corresponding to offsets: -2, -1, 0, +1, +2, +3
+// The visible container shows only the first 5 slots.
+  
+// Predefined slot layout information for each offset.
+// (These values are in pixels and define absolute positions within the container.)
+const slotLayouts = {
+  "-2": { left: 0,   top: 60,  width: 80,  height: 130, opacity: 0.6, zIndex: 1 },
+  "-1": { left: 90,  top: 35,  width: 100, height: 180, opacity: 0.8, zIndex: 2 },
+   "0": { left: 200, top: 0,   width: 140, height: 250, opacity: 1,   zIndex: 3 },
+  "1": { left: 350, top: 35,  width: 100, height: 180, opacity: 0.8, zIndex: 2 },
+  "2": { left: 460, top: 60,  width: 80,  height: 130, opacity: 0.6, zIndex: 1 },
+  "3": { left: 540, top: 60,  width: 50,  height: 100, opacity: 0,   zIndex: 0 } // This one will be offscreen (or hidden)
+};
+// Here, offset "3" is extra; you might adjust its properties so it “eases in” nicely when added.
 
-// Helper function to compute the minimal circular difference.
-// For even n, we treat diff <= -n/2 and diff >= n/2 as needing adjustment.
-function circularDiff(i, selected, n) {
-  let diff = i - selected;
-  if (diff <= -n / 2) {
-    diff += n;
-  }
-  if (diff >= n / 2) {
-    diff -= n;
-  }
-  return diff;
+// Our current selected image index in fullImages.
+// Initially, we set selectedIndex = 2 (so that there are two images before and two after).
+let selectedIndex = 2;
+
+// ---------- Helper Functions ----------
+/**
+ * Given an offset (e.g., -2, -1, 0, 1, 2, or 3), returns the fullImages index using circular wrap-around.
+ */
+function getImageIndex(offset) {
+  return (selectedIndex + offset + totalImages) % totalImages;
 }
 
-// Update the CSS classes on each carousel item based on its circular distance
-// from the selectedIndex. The mapping is as follows:
-//
-// - diff ===  0: "selected"
-// - diff === -1: "prev"
-// - diff === -2: "prevLeftSecond"
-// - diff ===  1: "next"
-// - diff ===  2: "nextRightSecond"
-// - diff < -2: "hideLeft"
-// - diff >  2: "hideRight"
-function updateCarouselClasses() {
-  const carousel = document.getElementById("carousel");
-  if (!carousel) return;
-  const items = Array.from(carousel.children);
-  const n = items.length;
-  items.forEach((item, i) => {
-    const diff = circularDiff(i, selectedIndex, n);
-    if (diff === 0) {
-      item.className = "selected";
-    } else if (diff === -1) {
-      item.className = "prev";
-    } else if (diff === -2) {
-      item.className = "prevLeftSecond";
-    } else if (diff === 1) {
-      item.className = "next";
-    } else if (diff === 2) {
-      item.className = "nextRightSecond";
-    } else if (diff < -2) {
-      item.className = "hideLeft";
-    } else if (diff > 2) {
-      item.className = "hideRight";
-    }
+/**
+ * rebuildTrack()
+ * (Re)builds the inner track (#carousel-track) with 6 items according to the current selectedIndex.
+ * Each item is absolutely positioned using slotLayouts.
+ */
+function rebuildTrack() {
+  const track = document.getElementById("carousel-track");
+  if (!track) return;
+  // Clear the track content
+  track.innerHTML = "";
+  // For offsets -2, -1, 0, 1, 2, 3 in order:
+  const offsets = [-2, -1, 0, 1, 2, 3];
+  offsets.forEach((offset) => {
+    const layout = slotLayouts[offset];
+    const item = document.createElement("div");
+    item.style.position = "absolute";
+    item.style.left = layout.left + "px";
+    item.style.top = layout.top + "px";
+    item.style.width = layout.width + "px";
+    item.style.height = layout.height + "px";
+    item.style.opacity = layout.opacity;
+    item.style.zIndex = layout.zIndex;
+    // Use a smooth easing transition
+    item.style.transition = "all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)";
+    // Create the IMG element
+    const img = document.createElement("img");
+    img.src = fullImages[getImageIndex(offset)];
+    img.style.width = "100%";
+    img.style.height = "100%";
+    img.style.objectFit = "cover";
+    item.appendChild(img);
+    track.appendChild(item);
   });
+  // Reset the track's transform to 0.
+  track.style.transition = "none";
+  track.style.transform = "translateX(0)";
 }
 
-// Advances the carousel by incrementing the selectedIndex (circularly)
-// and then updates the classes.
-function shiftCarousel() {
-  const carousel = document.getElementById("carousel");
-  if (!carousel) return;
-  const n = carousel.children.length;
-  selectedIndex = (selectedIndex + 1) % n;
-  updateCarouselClasses();
-  console.log("shiftCarousel: new selectedIndex =", selectedIndex);
+/**
+ * shiftTrackForward()
+ * Animates the inner track by shifting it left by the distance between slotLayouts[-2] and slotLayouts[-1].
+ * After the transition, it updates selectedIndex, rebuilds the track (thus resetting translation), and returns.
+ */
+function shiftTrackForward() {
+  const track = document.getElementById("carousel-track");
+  if (!track) return;
+  // Calculate shift distance: difference in left values between offset -1 and offset -2.
+  const shiftDistance = slotLayouts["-1"].left - slotLayouts["-2"].left;  // e.g., 90 - 0 = 90px
+  // Animate the track's translateX to -shiftDistance.
+  track.style.transition = "transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)";
+  track.style.transform = `translateX(-${shiftDistance}px)`;
+  
+  // When the transition ends, update selectedIndex and rebuild the track.
+  track.addEventListener("transitionend", function handler(e) {
+    track.removeEventListener("transitionend", handler);
+    // Advance selectedIndex by 1 (circularly).
+    selectedIndex = (selectedIndex + 1) % totalImages;
+    // Rebuild the track. This resets transform to 0 and uses the new selectedIndex.
+    rebuildTrack();
+  }, { once: true });
 }
 
+// ---------- Main Functions ----------
+/**
+ * spawnCarousel()
+ * Creates and inserts the carousel component.
+ * - Positions the container 50px above the element with id "letter-card"
+ * - Uses fixed container dimensions (e.g., 500px × 250px)
+ * - Creates an inner track that holds 6 items
+ * - Calls rebuildTrack() to initialize
+ * - Starts an autoplay interval to shift forward every 5 seconds
+ */
 export function spawnCarousel() {
   console.log("spawnCarousel() called.");
-
-  // Prevent duplicate spawning.
+  
+  // Prevent duplicate spawn.
   if (document.getElementById("carousel")) {
-    console.log("Carousel already exists.");
+    console.log("spawnCarousel: Carousel already exists.");
     return;
   }
-
+  
   const letterCard = document.getElementById("letter-card");
   if (!letterCard) {
-    console.error("Letter card element not found. Aborting carousel spawn.");
+    console.error("spawnCarousel: #letter-card not found. Aborting spawn.");
     return;
   }
-
-  // Get the letter card's position.
+  
   const rect = letterCard.getBoundingClientRect();
-
-  // Create the carousel container.
+  
+  // Create the outer carousel container.
   const carousel = document.createElement("div");
   carousel.id = "carousel";
-  carousel.className = "carousel";
-  // Position the carousel 50px above the letter with a fixed size of 400x400.
   carousel.style.position = "fixed";
-  carousel.style.width = "400px";
-  carousel.style.height = "400px";
+  carousel.style.width = "500px";  // Container width
+  carousel.style.height = "250px"; // Container height
+  // Position: 50px above the letter-card; horizontally centered relative to letter-card.
   carousel.style.top = (rect.top - 50) + "px";
-  // Horizontally center the carousel relative to the letter.
-  carousel.style.left = (rect.left + rect.width / 2 - 200) + "px";
-
-  // Define an array of 8 image sources.
-  const images = [
-    "https://cdn.pixabay.com/photo/2017/08/15/08/23/stars-2643089__340.jpg",
-    "https://cdn.pixabay.com/photo/2012/11/28/11/28/rocket-launch-67723__340.jpg",
-    "https://cdn.pixabay.com/photo/2018/08/15/13/10/galaxy-3608029_960_720.jpg",
-    "https://cdn.pixabay.com/photo/2020/06/17/09/28/wormhole-5308810__340.jpg",
-    "https://cdn.pixabay.com/photo/2016/11/18/22/58/stars-1837306__340.jpg",
-    "https://cdn.pixabay.com/photo/2017/02/09/09/11/starry-sky-2051448__340.jpg",
-    "https://cdn.pixabay.com/photo/2011/12/15/11/37/galaxy-11188__340.jpg",
-    "https://cdn.pixabay.com/photo/2011/12/15/11/32/pismis-24-11186__340.jpg"
-  ];
-
-  // Create carousel items for each image.
-  images.forEach((src, index) => {
-    const item = document.createElement("div");
-    item.id = `item_${index + 1}`;
-    // Initially, assign an empty class (classes will be set below).
-    item.className = "";
-    const img = document.createElement("img");
-    img.src = src;
-    item.appendChild(img);
-    carousel.appendChild(item);
-    console.log("Appended carousel item for:", src);
-  });
-
-  // Append the carousel container to the body.
+  carousel.style.left = (rect.left + rect.width / 2 - 250) + "px";
+  carousel.style.overflow = "hidden";
+  carousel.style.zIndex = "15";
+  carousel.style.background = "transparent";
+  
+  // Create the inner track.
+  const track = document.createElement("div");
+  track.id = "carousel-track";
+  track.style.position = "relative";
+  track.style.width = "500px";   // Same as container
+  track.style.height = "250px";
+  track.style.transition = "transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)";
+  track.style.transform = "translateX(0)";
+  
+  carousel.appendChild(track);
   document.body.appendChild(carousel);
-  console.log("Carousel appended at:", carousel.style.top, carousel.style.left);
-
-  // Set the initial selectedIndex to 3 (4th item).
-  selectedIndex = 3;
-  updateCarouselClasses();
-
-  // Start auto-sliding: every 3 seconds, advance the carousel.
+  console.log("spawnCarousel: Carousel appended at", carousel.style.top, carousel.style.left);
+  
+  // Initialize with selectedIndex = 2 and build track.
+  selectedIndex = 2;
+  rebuildTrack();
+  
+  // Autoplay: shift the track forward every 5 seconds.
   setInterval(() => {
-    shiftCarousel();
-  }, 3000);
-
+    shiftTrackForward();
+  }, 5000);
+  
   console.log("spawnCarousel() completed.");
 }
 
+/**
+ * despawnCarousel()
+ * Removes the carousel component from the DOM.
+ */
 export function despawnCarousel() {
   const carousel = document.getElementById("carousel");
   if (carousel) {
     carousel.remove();
-    console.log("Carousel despawned.");
+    console.log("despawnCarousel: Carousel removed.");
   }
 }

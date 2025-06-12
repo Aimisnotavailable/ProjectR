@@ -182,62 +182,79 @@ body {
   border-radius: 10px;
 }
 
-/* Pre-defined positioning and scaling classes for carousel items */
-#carousel div.hideLeft {
-  left: 0%;
-  opacity: 0;
-  transform: translateY(50%) translateX(-50%);
+/* Example CSS for carousel items */
+#carousel {
+  overflow: hidden;
+  z-index: 15;
 }
-#carousel div.hideLeft img {
-  width: 200px;
+
+/* --- Carousel Container --- */
+#carousel {
+  /* Override any previous carousel definitions */
+  position: fixed;  /* This is set via JS */
+  width: 400px;
+  height: 400px;
+  overflow: visible;  /* Allow items inside to be visible */
+  z-index: 15;
+  opacity: 1;         /* Ensure it is visible */
+  background: transparent; /* You can set a background color if desired */
+  
+  /* Flex layout for horizontal grouping */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
 }
-#carousel div.hideRight {
-  left: 100%;
-  opacity: 0;
-  transform: translateY(50%) translateX(-50%);
+
+/* ----- Carousel Container and Track ----- */
+#carousel {
+  background: transparent;
+  /* Ensure container settings are enforced */
+  position: fixed;
+  width: 500px;
+  height: 250px;
+  overflow: hidden;
+  z-index: 15;
 }
-#carousel div.hideRight img {
-  width: 200px;
+
+#carousel-track {
+  position: relative;
+  width: 500px;
+  height: 250px;
+  -webkit-transition: -webkit-transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
 }
-#carousel div.prev {
-  z-index: 5;
-  left: 30%;
-  transform: translateY(50px) translateX(-50%);
+
+/* ----- Carousel Items ----- */
+/* All items are created by JS in the track. Their positioning is set inline,
+   but you can add additional styling here: */
+#carousel-track div {
+  position: absolute;
+  border-radius: 5px; /* Optional rounding */
+  -webkit-transition: all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
-#carousel div.prev img {
-  width: 300px;
+
+/* Images within each carousel item */
+#carousel-track div img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 5px;
 }
-#carousel div.prevLeftSecond {
-  z-index: 4;
-  left: 15%;
-  transform: translateY(50%) translateX(-50%);
-  opacity: 0.7;
-}
-#carousel div.prevLeftSecond img {
-  width: 200px;
-}
-#carousel div.selected {
-  z-index: 10;
-  left: 50%;
-  transform: translateY(0px) translateX(-50%);
-}
-#carousel div.next {
-  z-index: 5;
-  left: 70%;
-  transform: translateY(50px) translateX(-50%);
-}
-#carousel div.next img {
-  width: 300px;
-}
-#carousel div.nextRightSecond {
-  z-index: 4;
-  left: 85%;
-  transform: translateY(50%) translateX(-50%);
-  opacity: 0.7;
-}
-#carousel div.nextRightSecond img {
-  width: 200px;
-}
+
+
+
+
+/* Smooth transitions are defined inline via JS (transition: all 0.6s ease),
+   but you could also add additional rules here if needed. */
+
+
+/* Smooth transitions are defined inline via JS (transition: all 0.6s ease),
+   but you could also add additional rules here if needed. */
 
 /* Mobile Adjustments */
 @media screen and (max-width: 600px) {
