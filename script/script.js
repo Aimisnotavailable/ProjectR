@@ -21,11 +21,11 @@ function openLetter() {
   letterCard.classList.add("open");
 
   // Spawn the carousel outside the letter, 50px above it.
-  spawnCarousel();
 
   // Existing animations and butterfly spawn.
   animateAllFlowers(() => {
     spawnButterfliesSequentially();
+    spawnCarousel();
   });
   startContainerSwayAnimation();
 }
