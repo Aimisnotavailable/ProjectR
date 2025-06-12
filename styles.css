@@ -161,15 +161,15 @@ body {
     padding: 6px 10px;
   }
   /* Scale Letter Card for Mobile View:
-     Explicitly define the closed (not open) state to mimic desktop behavior */
+     Use a slightly smaller width for the closed state so it really appears closed */
   #letter-card:not(.open) {
-    width: 45vw;  /* Approximately half the width of the open card */
+    width: 40vw;  /* reduced from 45vw */
     left: 50%;
     transform: translate(-50%, -50%) rotate(-3deg);
     -webkit-transform: translate(-50%, -50%) rotate(-3deg);
   }
   #letter-card.open {
-    width: 90vw;
+    width: 80vw;  /* you can tweak this if needed */
     left: 50%;
     transform: translate(-50%, -50%) rotate(0deg);
     -webkit-transform: translate(-50%, -50%) rotate(0deg);
