@@ -128,57 +128,64 @@ function shiftTrackForward() {
  */
 export function spawnCarousel() {
   console.log("spawnCarousel() called.");
-  
+
   // Prevent duplicate spawn.
   if (document.getElementById("carousel")) {
     console.log("spawnCarousel: Carousel already exists.");
     return;
   }
-  
-  const letterCard = document.getElementById("letter-card");
-  if (!letterCard) {
-    console.error("spawnCarousel: #letter-card not found. Aborting spawn.");
-    return;
-  }
-  
-  const rect = letterCard.getBoundingClientRect();
-  
+
   // Create the outer carousel container.
   const carousel = document.createElement("div");
+  const letter = document.getElementById("letter-card")
+   
   carousel.id = "carousel";
   carousel.style.position = "fixed";
   carousel.style.width = "500px";  // Container width
   carousel.style.height = "250px"; // Container height
-  // Position: 50px above the letter-card; horizontally centered relative to letter-card.
-  carousel.style.top = (rect.top - 50) + "px";
-  carousel.style.left = (rect.left + rect.width / 2 - 250) + "px";
+
+  // Vertical positioning: position 10px from the top.
+  carousel.style.bottom = "10px";
+
+  // To center the entire carousel container in the viewport, 
+  // calculate the left offset from the viewport center minus half the container width.
+  const viewportCenterX = window.innerWidth / 2;
+  carousel.style.center = (viewportCenterX - 250) + "px"; // 250 is half of 500
+
   carousel.style.overflow = "hidden";
   carousel.style.zIndex = "15";
   carousel.style.background = "transparent";
-  
+
   // Create the inner track.
   const track = document.createElement("div");
   track.id = "carousel-track";
   track.style.position = "relative";
   track.style.width = "500px";
   track.style.height = "250px";
-  
+
   carousel.appendChild(track);
   document.body.appendChild(carousel);
-  console.log("spawnCarousel: Carousel appended at", carousel.style.top, carousel.style.left);
-  
+  console.log(
+    "spawnCarousel: Carousel appended at top:",
+    carousel.style.top,
+    "left:",
+    carousel.style.left
+  );
+
   // Clear any previous carousel items and global references.
   carouselItems = [];
   // Create carousel items once.
   createCarouselItems(track);
-  
+
   // Autoplay: shift the track forward every 5 seconds.
   setInterval(() => {
     shiftTrackForward();
   }, 5000);
-  
+
   console.log("spawnCarousel() completed.");
 }
+
+
 
 /**
  * despawnCarousel()
