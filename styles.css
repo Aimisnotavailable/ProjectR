@@ -160,21 +160,22 @@ body {
     padding: 6px 10px;
   }
   
-  /* Letter Card Sizing */
+  /* Letter Card Sizing for Mobile */
   #letter-card:not(.open) {
-    width: 40vw;
+    width: 40vw;  /* Responsive width for closed state */
     left: 50%;
     transform: translate(-50%, -50%) rotate(-3deg);
     -webkit-transform: translate(-50%, -50%) rotate(-3deg);
   }
   #letter-card.open {
-    width: 80vw;
+    width: 80vw;  /* Responsive width for open state */
     left: 50%;
     transform: translate(-50%, -50%) rotate(0deg);
     -webkit-transform: translate(-50%, -50%) rotate(0deg);
   }
   
-  /* Forcing the SVG inside the letter card to render the closed state */
+  /* Forcing the SVG inside the letter card to render the correct state */
+  /* When closed, ensure leftPage is at 0deg & rightPage stays hidden */
   #letter-card:not(.open) #leftPage {
     transform: rotateY(0deg) !important;
     -webkit-transform: rotateY(0deg) !important;
@@ -182,7 +183,7 @@ body {
   #letter-card:not(.open) #rightPage {
     opacity: 0 !important;
   }
-  /* When open */
+  /* When open, leftPage flips and rightPage becomes visible */
   #letter-card.open #leftPage {
     transform: rotateY(180deg) !important;
     -webkit-transform: rotateY(180deg) !important;
