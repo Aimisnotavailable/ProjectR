@@ -13,7 +13,6 @@ const letterCard = document.getElementById("letter-card");
 const butterflyContainer = document.getElementById("butterfly-container");
 
 // Initially, ensure flowers are placed and in a reset state.
-// Reverted to commit hash 063d74177da376d28800d2f013e7d4e43e73775c
 populateFlowerContainers();
 adjustFlowerPositions();
 resetAllFlowers();
@@ -53,25 +52,22 @@ function closeLetter() {
     stem.style.webkitTransition = "none";
     stem.style.strokeDasharray = "";
     stem.style.strokeDashoffset = "";
-    stem.className = "";
+    // Instead of directly setting className (which causes errors on SVG elements),
+    // use setAttribute to clear the class.
+    stem.setAttribute("class", "");
   });
 
   // Reset flower container animations to a clean state.
   document.querySelectorAll(".flower-container").forEach(flower => {
     flower.style.transition = "none";
     flower.style.webkitTransition = "none";
-    flower.className = "flower-container";
+    // Reset the class using setAttribute to work properly on SVG elements.
+    flower.setAttribute("class", "flower-container");
   });
 }
 
-// Remove these old event listeners:
-// letterCard.addEventListener("mouseenter", openLetter);
-// letterCard.addEventListener("mouseleave", closeLetter);
-// letterCard.addEventListener("touchstart", openLetter);
-// letterCard.addEventListener("touchend", closeLetter);
-
-// Add click support:
-letterCard.addEventListener("click", () => {
+// Use pointer events so that both mobile and desktop interact uniformly.
+letterCard.addEventListener("pointerdown", () => {
   if (letterCard.classList.contains("open")) {
     closeLetter();
   } else {
