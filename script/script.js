@@ -64,9 +64,17 @@ function closeLetter() {
   });
 }
 
-letterCard.addEventListener("mouseenter", openLetter);
-letterCard.addEventListener("mouseleave", closeLetter);
+// Remove these old event listeners:
+// letterCard.addEventListener("mouseenter", openLetter);
+// letterCard.addEventListener("mouseleave", closeLetter);
+// letterCard.addEventListener("touchstart", openLetter);
+// letterCard.addEventListener("touchend", closeLetter);
 
-// Add touch events for mobile Safari support.
-letterCard.addEventListener("touchstart", openLetter);
-letterCard.addEventListener("touchend", closeLetter);
+// Add click support:
+letterCard.addEventListener("click", () => {
+  if (letterCard.classList.contains("open")) {
+    closeLetter();
+  } else {
+    openLetter();
+  }
+});

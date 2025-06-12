@@ -9,10 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
     letterCard.classList.remove('open');
   }
 
-  letterCard.addEventListener('mouseenter', openLetter);
-  letterCard.addEventListener('mouseleave', closeLetter);
+  // letterCard.addEventListener('mouseenter', openLetter);
+  // letterCard.addEventListener('mouseleave', closeLetter);
   
-  // Add touch support for Safari and other mobile devices.
-  letterCard.addEventListener('touchstart', openLetter);
-  letterCard.addEventListener('touchend', closeLetter);
+  // // Add touch support for Safari and other mobile devices.
+  // letterCard.addEventListener('touchstart', openLetter);
+  // letterCard.addEventListener('touchend', closeLetter);
 });

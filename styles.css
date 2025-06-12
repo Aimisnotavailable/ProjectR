@@ -11,6 +11,22 @@ body {
   overflow-x: hidden;
 }
 
+/* Transition defaults for SVG flower elements to ensure smooth animations across browsers */
+#stem-path {
+  transition: stroke-dashoffset 3s ease-out;
+  -webkit-transition: stroke-dashoffset 3s ease-out;
+}
+
+.petal {
+  transition: transform 0.5s ease-out;
+  -webkit-transition: -webkit-transform 0.5s ease-out;
+}
+
+#flower-core {
+  transition: transform 0.5s ease-out;
+  -webkit-transition: -webkit-transform 0.5s ease-out;
+}
+
 /* Flower Field Styles */
 #flower-field {
   position: relative;
@@ -145,7 +161,7 @@ body {
     padding: 6px 10px;
   }
   /* Scale Letter Card for Mobile View:
-     Closed state shows one page (cover) while open state shows the two-page view */
+     Explicitly define the closed (not open) state to mimic desktop behavior */
   #letter-card:not(.open) {
     width: 45vw;  /* Approximately half the width of the open card */
     left: 50%;
