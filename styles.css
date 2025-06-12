@@ -153,6 +153,7 @@ body {
   .flower-svg {
     max-width: 80px;
   }
+  
   /* Adjust Restart Button */
   #restartBtn {
     top: 10px;
@@ -160,30 +161,28 @@ body {
     padding: 6px 10px;
   }
   
-  /* Override the letter card’s transition to remove width animation */
+  /* Force the letter card to have the same fixed desktop sizes—ignoring viewports */
   #letter-card {
-    /* Only animate the transform (rotation) on mobile */
-    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    -webkit-transition: -webkit-transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    width: 300px !important; /* Same as desktop closed state */
+    left: 50% !important;
+    transform: translate(-50%, -50%) rotate(-3deg) !important;
+    -webkit-transform: translate(-50%, -50%) rotate(-3deg) !important;
+    transition: width 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+                transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+    -webkit-transition: width 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+                        -webkit-transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
   }
   
-  /* For the closed state, enforce a fixed width (so it does not zoom) */
-  #letter-card:not(.open) {
-    width: 40vw;  
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-3deg);
-    -webkit-transform: translate(-50%, -50%) rotate(-3deg);
-  }
-  /* For the open state, keep the width identical (no width-grow, only rotation changes) */
+  /* Force open state with fixed desktop dimensions */
   #letter-card.open {
-    width: 40vw;  
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(0deg);
-    -webkit-transform: translate(-50%, -50%) rotate(0deg);
+    width: 600px !important; /* Desktop open state width */
+    left: 50% !important;
+    transform: translate(-50%, -50%) rotate(0deg) !important;
+    -webkit-transform: translate(-50%, -50%) rotate(0deg) !important;
   }
   
   /* Forcing the SVG inside the letter card to render the correct state */
-  /* When closed, ensure leftPage is at 0deg & rightPage stays hidden */
+  /* When closed: leftPage is unrotated and rightPage stays hidden */
   #letter-card:not(.open) #leftPage {
     transform: rotateY(0deg) !important;
     -webkit-transform: rotateY(0deg) !important;
@@ -191,7 +190,7 @@ body {
   #letter-card:not(.open) #rightPage {
     opacity: 0 !important;
   }
-  /* When open, leftPage flips and rightPage becomes visible */
+  /* When open: leftPage flips and rightPage appears */
   #letter-card.open #leftPage {
     transform: rotateY(180deg) !important;
     -webkit-transform: rotateY(180deg) !important;
@@ -200,9 +199,10 @@ body {
     opacity: 1 !important;
   }
   
-  /* Ensure the contained SVG scales properly */
+  /* Ensure the contained SVG scales properly within the fixed container */
   #letter-svg {
-    width: 100%;
-    height: auto;
+    width: 100% !important;
+    height: auto !important;
   }
 }
+
