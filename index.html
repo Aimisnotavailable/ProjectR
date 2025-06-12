@@ -121,28 +121,54 @@
           -webkit-transition: -webkit-transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
           transform-style: preserve-3d;
           -webkit-transform-style: preserve-3d;
+          /* Closed state: front face visible, no flip */
+          transform: rotateY(0deg);
+          -webkit-transform: rotateY(0deg);
         }
+        
         .page-face {
           backface-visibility: hidden;
           -webkit-backface-visibility: hidden;
         }
+        
+        /* Pre-rotate the back face so it’s hidden when not flipped */
         #leftPage .back {
           transform: rotateY(180deg);
           -webkit-transform: rotateY(180deg);
         }
+        
         /* Right page settings */
         #rightPage {
           opacity: 0;
           transition: opacity 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
           -webkit-transition: opacity 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
-        /* When the container has the .open class */
+        
+        /* When the container has the .open class: flip the left page to show its back face and reveal the right page */
         #letter-card.open #leftPage {
           transform: rotateY(180deg);
           -webkit-transform: rotateY(180deg);
         }
+        
         #letter-card.open #rightPage {
           opacity: 1;
+        }
+        
+        /* Mobile override inside the SVG to ensure consistency */
+        @media screen and (max-width: 600px) {
+          /* Force closed state on mobile */
+          #leftPage {
+            transform: rotateY(0deg) !important;
+            -webkit-transform: rotateY(0deg) !important;
+          }
+          /* Ensure the back face remains hidden */
+          #leftPage .back {
+            transform: rotateY(180deg) !important;
+            -webkit-transform: rotateY(180deg) !important;
+          }
+          #rightPage {
+            opacity: 0 !important;
+          }
         }
       </style>
       <rect x="0" y="0" width="600" height="400" fill="#f8f8f8"/>

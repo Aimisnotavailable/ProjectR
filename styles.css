@@ -144,7 +144,6 @@ body {
   -webkit-transform: scaleX(-1);
 }
 
-/* Mobile Adjustments */
 @media screen and (max-width: 600px) {
   /* Adjust flower dimensions */
   .flower-container {
@@ -160,21 +159,39 @@ body {
     right: 10px;
     padding: 6px 10px;
   }
-  /* Scale Letter Card for Mobile View:
-     Use a slightly smaller width for the closed state so it really appears closed */
+  
+  /* Letter Card Sizing */
   #letter-card:not(.open) {
-    width: 40vw;  /* reduced from 45vw */
+    width: 40vw;
     left: 50%;
     transform: translate(-50%, -50%) rotate(-3deg);
     -webkit-transform: translate(-50%, -50%) rotate(-3deg);
   }
   #letter-card.open {
-    width: 80vw;  /* you can tweak this if needed */
+    width: 80vw;
     left: 50%;
     transform: translate(-50%, -50%) rotate(0deg);
     -webkit-transform: translate(-50%, -50%) rotate(0deg);
   }
-  /* Ensure the SVG scales responsively */
+  
+  /* Forcing the SVG inside the letter card to render the closed state */
+  #letter-card:not(.open) #leftPage {
+    transform: rotateY(0deg) !important;
+    -webkit-transform: rotateY(0deg) !important;
+  }
+  #letter-card:not(.open) #rightPage {
+    opacity: 0 !important;
+  }
+  /* When open */
+  #letter-card.open #leftPage {
+    transform: rotateY(180deg) !important;
+    -webkit-transform: rotateY(180deg) !important;
+  }
+  #letter-card.open #rightPage {
+    opacity: 1 !important;
+  }
+  
+  /* Ensure the contained SVG scales properly */
   #letter-svg {
     width: 100%;
     height: auto;
