@@ -35,7 +35,7 @@ body {
 }
 .flower-container {
   width: 100px;
-  height: 275px;
+  height: 315px; /* Increased from 275px to 315px */
   transform-origin: bottom center;
   -webkit-transform-origin: bottom center;
 }
@@ -144,26 +144,61 @@ body {
   -webkit-transform: scaleX(-1);
 }
 
+
+/* Carousel Styles */
+#carousel {
+  position: relative;
+  width: 100%;
+  height: 100px; /* Adjust height as needed */
+  overflow: hidden;
+  margin-bottom: 10px; /* space between carousel and SVG letter content */
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+#carousel.active {
+  opacity: 1;
+}
+
+.carousel-img {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.carousel-img.active {
+  opacity: 1;
+}
+
+
+/* Mobile Adjustments */
 @media screen and (max-width: 600px) {
-  /* Adjust flower dimensions */
+  /* Adjust flower dimensions on mobile */
   .flower-container {
     width: 80px;
-    height: 138px;
+    height: 158px;  /* Increased from 138px to 158px */
   }
   .flower-svg {
     max-width: 80px;
   }
-  
-  /* Adjust Restart Button */
+  /* Adjust Restart Button on mobile */
   #restartBtn {
     top: 10px;
     right: 10px;
     padding: 6px 10px;
   }
   
-  /* Force the letter card to have the same fixed desktop sizes—ignoring viewports */
+  /* Force the letter card container to use desktop dimensions:
+     - Closed state: 300px width
+     - Open state: 600px width
+     The container retains overflow hidden to clip the SVG.
+  */
   #letter-card {
-    width: 300px !important; /* Same as desktop closed state */
+    width: 300px !important; 
     left: 50% !important;
     transform: translate(-50%, -50%) rotate(-3deg) !important;
     -webkit-transform: translate(-50%, -50%) rotate(-3deg) !important;
@@ -172,17 +207,23 @@ body {
     -webkit-transition: width 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55),
                         -webkit-transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
   }
-  
-  /* Force open state with fixed desktop dimensions */
   #letter-card.open {
-    width: 600px !important; /* Desktop open state width */
+    width: 600px !important;
     left: 50% !important;
     transform: translate(-50%, -50%) rotate(0deg) !important;
     -webkit-transform: translate(-50%, -50%) rotate(0deg) !important;
   }
   
-  /* Forcing the SVG inside the letter card to render the correct state */
-  /* When closed: leftPage is unrotated and rightPage stays hidden */
+  /* IMPORTANT: Keep the SVG’s intrinsic size intact at 600px so that it is clipped properly by the container */
+  #letter-svg {
+    width: 600px !important;
+    height: auto !important;
+  }
+  
+  /* Forcing the SVG pages inside the letter to behave as desired.
+     When closed: leftPage remains unrotated and rightPage stays hidden.
+     When open: leftPage flips and rightPage fades in.
+  */
   #letter-card:not(.open) #leftPage {
     transform: rotateY(0deg) !important;
     -webkit-transform: rotateY(0deg) !important;
@@ -190,7 +231,6 @@ body {
   #letter-card:not(.open) #rightPage {
     opacity: 0 !important;
   }
-  /* When open: leftPage flips and rightPage appears */
   #letter-card.open #leftPage {
     transform: rotateY(180deg) !important;
     -webkit-transform: rotateY(180deg) !important;
@@ -198,11 +238,4 @@ body {
   #letter-card.open #rightPage {
     opacity: 1 !important;
   }
-  
-  /* Ensure the contained SVG scales properly within the fixed container */
-  #letter-svg {
-    width: 100% !important;
-    height: auto !important;
-  }
 }
-

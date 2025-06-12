@@ -7,6 +7,10 @@ import {
   cancelContainerSwayAnimation
 } from "./flower.js";
 
+import {
+  startCarousel
+} from "./carousel.js"
+
 import { spawnButterfliesSequentially } from "./butterfly.js";
 
 const letterCard = document.getElementById("letter-card");
@@ -19,12 +23,13 @@ resetAllFlowers();
 
 function openLetter() {
   letterCard.classList.add("open");
+  // Start the carousel when the letter opens
+  startCarousel();
 
-  // Animate flowers and then spawn butterflies.
+  // (Existing code that animates flowers, etc.)
   animateAllFlowers(() => {
     spawnButterfliesSequentially();
   });
-
   startContainerSwayAnimation();
 }
 
