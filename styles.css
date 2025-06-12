@@ -160,15 +160,23 @@ body {
     padding: 6px 10px;
   }
   
-  /* Letter Card Sizing for Mobile */
+  /* Override the letter card’s transition to remove width animation */
+  #letter-card {
+    /* Only animate the transform (rotation) on mobile */
+    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    -webkit-transition: -webkit-transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  /* For the closed state, enforce a fixed width (so it does not zoom) */
   #letter-card:not(.open) {
-    width: 40vw;  /* Responsive width for closed state */
+    width: 40vw;  
     left: 50%;
     transform: translate(-50%, -50%) rotate(-3deg);
     -webkit-transform: translate(-50%, -50%) rotate(-3deg);
   }
+  /* For the open state, keep the width identical (no width-grow, only rotation changes) */
   #letter-card.open {
-    width: 80vw;  /* Responsive width for open state */
+    width: 40vw;  
     left: 50%;
     transform: translate(-50%, -50%) rotate(0deg);
     -webkit-transform: translate(-50%, -50%) rotate(0deg);
