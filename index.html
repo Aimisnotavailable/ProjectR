@@ -13,12 +13,16 @@
       -webkit-transform: translate(0, 0);
       transform: translate(0, 0);
     }
+    /* Optional: Ensure the letter card is a reference for absolute positioning */
+    #letter-card {
+      position: fixed;
+    }
   </style>
 </head>
 <body>
   <!-- Flower Field -->
   <div id="flower-field">
-    <!-- Flower Container 1: Stem Curving Left (Not flipped) -->
+    <!-- Flower Container 1 -->
     <div class="flower-container" style="transform: translate(50px, 100px) scale(1);">
       <svg class="flower-svg" viewBox="0 0 200 550" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -61,7 +65,7 @@
       </svg>
     </div>
 
-    <!-- Flower Container 2: Stem Curving Left but Flipped Horizontally -->
+    <!-- Flower Container 2: Flipped horizontally -->
     <div class="flower-container" style="transform: translate(200px, 150px) scale(1);">
       <div class="flip-horizontal">
         <svg class="flower-svg" viewBox="0 0 200 550" xmlns="http://www.w3.org/2000/svg">
@@ -109,17 +113,8 @@
   </div>
 
   <!-- Book-Style Letter Card -->
-  <!-- The container (#letter-card) starts at 300px wide so only one page is visible. -->
   <div id="letter-card">
-
-    <!-- <div id="carousel">
-      <img src="./imgs/1.jpeg" class="carousel-img" alt="Image 1">
-      <img src="./imgs/1.jpeg" class="carousel-img" alt="Image 2">
-      <img src="./imgs/1.jpeg" class="carousel-img" alt="Image 3">
-      <img src="./imgs/1.jpeg" class="carousel-img" alt="Image 4">
-      <img src="./imgs/1.jpeg" class="carousel-img" alt="Image 5">
-    </div> -->
-
+    <!-- The carousel will be spawned dynamically in here via carousel.js -->
     <svg id="letter-svg" width="600" height="400" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
       <style>
         /* Left page settings */
@@ -153,7 +148,7 @@
           -webkit-transition: opacity 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
         
-        /* When the container has the .open class: flip the left page to show its back face and reveal the right page */
+        /* When the container has the .open class: flip the left page and reveal the right page */
         #letter-card.open #leftPage {
           transform: rotateY(180deg);
           -webkit-transform: rotateY(180deg);
@@ -165,12 +160,10 @@
         
         /* Mobile override inside the SVG to ensure consistency */
         @media screen and (max-width: 600px) {
-          /* Force closed state on mobile */
           #leftPage {
             transform: rotateY(0deg) !important;
             -webkit-transform: rotateY(0deg) !important;
           }
-          /* Ensure the back face remains hidden */
           #leftPage .back {
             transform: rotateY(180deg) !important;
             -webkit-transform: rotateY(180deg) !important;
@@ -205,5 +198,6 @@
   <!-- JavaScript Files -->
   <script src="./script/letter.js"></script>
   <script type="module" src="./script/script.js"></script>
+  <!-- External Carousel Script -->
 </body>
 </html>
