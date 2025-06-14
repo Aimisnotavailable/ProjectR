@@ -112,86 +112,49 @@
     <!-- (Add more flower containers as needed) -->
   </div>
 
-  <!-- Book-Style Letter Card -->
-  <div id="letter-card">
-    <!-- The carousel will be spawned dynamically in here via carousel.js -->
-    <svg id="letter-svg" width="600" height="400" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-      <style>
-        /* Left page settings */
-        #leftPage {
-          transform-origin: 100% 50%;
-          -webkit-transform-origin: 100% 50%;
-          transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-          -webkit-transition: -webkit-transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-          transform-style: preserve-3d;
-          -webkit-transform-style: preserve-3d;
-          /* Closed state: front face visible, no flip */
-          transform: rotateY(0deg);
-          -webkit-transform: rotateY(0deg);
-        }
-        
-        .page-face {
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-        }
-        
-        /* Pre-rotate the back face so it’s hidden when not flipped */
-        #leftPage .back {
-          transform: rotateY(180deg);
-          -webkit-transform: rotateY(180deg);
-        }
-        
-        /* Right page settings */
-        #rightPage {
-          opacity: 0;
-          transition: opacity 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-          -webkit-transition: opacity 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-        
-        /* When the container has the .open class: flip the left page and reveal the right page */
-        #letter-card.open #leftPage {
-          transform: rotateY(180deg);
-          -webkit-transform: rotateY(180deg);
-        }
-        
-        #letter-card.open #rightPage {
-          opacity: 1;
-        }
-        
-        /* Mobile override inside the SVG to ensure consistency */
-        @media screen and (max-width: 600px) {
-          #leftPage {
-            transform: rotateY(0deg) !important;
-            -webkit-transform: rotateY(0deg) !important;
-          }
-          #leftPage .back {
-            transform: rotateY(180deg) !important;
-            -webkit-transform: rotateY(180deg) !important;
-          }
-          #rightPage {
-            opacity: 0 !important;
-          }
-        }
-      </style>
-      <rect x="0" y="0" width="600" height="400" fill="#f8f8f8"/>
-      <line x1="300" y1="0" x2="300" y2="400" stroke="#ccc" stroke-width="2"/>
-      <g id="rightPage">
-        <rect x="300" y="0" width="300" height="400" fill="#fff" stroke="#ddd" stroke-width="2"/>
-        <text x="450" y="200" font-size="24" text-anchor="middle" fill="#333" dominant-baseline="middle">
-          RELEASE THE BUTTERFLIES
-        </text>
-      </g>
-      <g id="leftPage">
-        <g class="page-face front">
-          <rect x="0" y="0" width="300" height="400" fill="#fff" stroke="#ddd" stroke-width="2"/>
-          <text x="150" y="200" font-size="24" text-anchor="middle" fill="#333" dominant-baseline="middle">
-            Click me 3
-          </text>
-        </g>
-      </g>
-    </svg>
-  </div>
+    <div class="flipbook-container">
+      <div class="flipbook closed">
+        <div class="hard">
+          My Pokemon Gallery <small>~ HankTheTank</small>
+        </div>
+        <div class="hard"></div>
+        <div>
+          <small>Lets Look At Some Amazing Pokemon ❤️</small>
+          <small>Gotta Catch 'Em All</small>
+        </div>
+        <div>
+          <img src="images/img-1.png" alt="Charmandar image" />
+          <small> Charmandar </small>
+        </div>
+        <div>
+          <img src="images/img-2.png" alt="Arbok image" />
+          <small> Arbok </small>
+        </div>
+        <div>
+          <img src="images/img-3.png" alt="Pikachu image" />
+          <small> Pikachu </small>
+        </div>
+        <div>
+          <img src="images/img-4.png" alt="Mew image" />
+          <small> Mew </small>
+        </div>
+        <div>
+          <img src="images/img-5.png" alt="Darkrai image" />
+          <small> Darkrai </small>
+        </div>
+        <div class="hard"></div>
+        <div class="hard">
+          Thank You <small>~ HankTheTank</small>
+        </div>
+      </div>
+    </div>
+  
+  <script src="./script/jquery.js"></script>
+  <script src="./script/turn.js"></script>
+  <script>
+    $('.flipbook').turn();
 
+  </script>
   <!-- Butterfly Elements -->
   <div id="butterfly-container"></div>
 

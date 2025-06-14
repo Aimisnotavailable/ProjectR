@@ -45,33 +45,6 @@ body {
   display: block;
   max-width: 100px;
 }
-
-/* Book Container (Letter Card) Styles */
-#letter-card {
-  width: 300px; /* Closed state on desktop: one-page (cover only) */
-  overflow: hidden;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  /* Center and tilt the book */
-  transform: translate(-50%, -50%) rotate(-3deg);
-  -webkit-transform: translate(-50%, -50%) rotate(-3deg);
-  transition: width 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55),
-    transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  -webkit-transition: width 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55),
-    -webkit-transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  z-index: 10;
-  /* Glow effect */
-  box-shadow: 0 0 20px 4px rgba(255, 255, 255, 0.4);
-}
-
-/* Expanded state: full 2-page book and level tilt */
-#letter-card.open {
-  width: 600px;
-  transform: translate(-50%, -50%) rotate(0deg);
-  -webkit-transform: translate(-50%, -50%) rotate(0deg);
-}
-
 /* Global Restart Button Styling */
 #restartBtn {
   position: fixed;
@@ -143,7 +116,6 @@ body {
   transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
 }
-
 
 /* Carousel Styles */
 #carousel {
@@ -246,9 +218,92 @@ body {
   border-radius: 5px;
 }
 
+/* The container centers itself and scales responsively */
+.flipbook-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  max-width: 90vw;       /* Maximum width for larger screens */
+  max-height: 80vh;
+  padding: 10px;
+  box-sizing: border-box;  /* Ensure padding is included in the width calculation */
+  transform: translate(-50%, -50%);
+  transition: width 0.5s ease-in-out, transform 0.5s ease-in-out;
 
+}
 
+/* The flip element inside always takes 100% of the container’s width */
+.flipbook {
+  position: relative;
+  width: 90vw; 
+  height: 80vh;
+}
 
+.flipbook .hard {
+    background: #c0392b !important;
+    color: #fff;
+    font-weight: bold;
+    border: none; 
+}
+
+.flipbook .hard small{
+	font-style: italic;
+	font-weight: lighter;
+	opacity: 0.7;
+	font-size: 14px;
+}
+
+.flipbook .page {
+  background: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.11);
+}
+
+.page img{
+	width: 70%;
+	object-fit: cover;
+	margin: auto;
+}
+
+.flipbook .page small{
+	font-size: 14px;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 481px) {
+  /* The container centers itself and scales responsively */
+  .flipbook-container {
+    position: fixed;
+    max-width: 90vw;       /* Maximum width for larger screens */
+    max-height: 600px;
+    height: 40vh;
+    padding: 10px;
+  }
+
+  /* The flip element inside always takes 100% of the container’s width */
+  .flipbook {
+    position: relative;
+    width: 90vw; 
+    height: 40vh;
+  }
+
+  .flipbook .page small{
+    font-size: 7px;
+      margin-bottom: 10px;
+  }
+
+  .flipbook .hard small{
+    font-style: italic;
+    font-weight: lighter;
+    opacity: 0.7;
+    font-size: 7px;
+  }
+
+}
 /* Smooth transitions are defined inline via JS (transition: all 0.6s ease),
    but you could also add additional rules here if needed. */
 
@@ -266,57 +321,5 @@ body {
   .flower-svg {
     max-width: 80px;
   }
-  /* Adjust Restart Button on mobile */
-  #restartBtn {
-    top: 10px;
-    right: 10px;
-    padding: 6px 10px;
-  }
-  
-  /* Force the letter card container to use desktop dimensions:
-     - Closed state: 300px width
-     - Open state: 600px width
-     The container retains overflow hidden to clip the SVG.
-  */
-  #letter-card {
-    width: 300px !important; 
-    left: 50% !important;
-    transform: translate(-50%, -50%) rotate(-3deg) !important;
-    -webkit-transform: translate(-50%, -50%) rotate(-3deg) !important;
-    transition: width 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55),
-                transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
-    -webkit-transition: width 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55),
-                        -webkit-transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
-  }
-  #letter-card.open {
-    width: 600px !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) rotate(0deg) !important;
-    -webkit-transform: translate(-50%, -50%) rotate(0deg) !important;
-  }
-  
-  /* IMPORTANT: Keep the SVG’s intrinsic size intact at 600px so that it is clipped properly by the container */
-  #letter-svg {
-    width: 600px !important;
-    height: auto !important;
-  }
-  
-  /* Forcing the SVG pages inside the letter to behave as desired.
-     When closed: leftPage remains unrotated and rightPage stays hidden.
-     When open: leftPage flips and rightPage fades in.
-  */
-  #letter-card:not(.open) #leftPage {
-    transform: rotateY(0deg) !important;
-    -webkit-transform: rotateY(0deg) !important;
-  }
-  #letter-card:not(.open) #rightPage {
-    opacity: 0 !important;
-  }
-  #letter-card.open #leftPage {
-    transform: rotateY(180deg) !important;
-    -webkit-transform: rotateY(180deg) !important;
-  }
-  #letter-card.open #rightPage {
-    opacity: 1 !important;
-  }
+
 }
