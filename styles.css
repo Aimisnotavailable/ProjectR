@@ -1,6 +1,8 @@
+/* Import Google Font: Fredoka One */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
 /* =====================================================
-   FORMATTED CSS WITH WEBKIT PREFIXES & "ALCANTARA ROAD" FONT
-   (Remember to load the "Alcantara Road" font in your HTML)
+   FORMATTED CSS WITH WEBKIT PREFIXES & "FREDOKA ONE" FONT
    ===================================================== */
 
 /* ----------------------------------
@@ -14,7 +16,7 @@
 
 body {
   background: #111;
-  font-family: "Alcantara Road", sans-serif;
+  font-family: 'Fredoka One', sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -157,11 +159,8 @@ body {
   background: transparent;
   opacity: 1;
   display: flex;
-  -webkit-display: flex;
   justify-content: space-between;
-  -webkit-justify-content: space-between;
   align-items: center;
-  -webkit-align-items: center;
   gap: 5px;
   transition: opacity 0.5s ease-in-out;
   -webkit-transition: opacity 0.5s ease-in-out;
@@ -259,7 +258,7 @@ body {
   box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4),
               0 4px 15px rgba(255, 105, 180, 0.6);
   position: relative;
-  font-family: "Alcantara Road", sans-serif;
+  font-family: 'Fredoka One', sans-serif;
 }
 
 .flipbook .hard small {
@@ -267,7 +266,7 @@ body {
   font-weight: lighter;
   opacity: 0.7;
   font-size: 14px;
-  font-family: "Alcantara Road", sans-serif;
+  font-family: 'Fredoka One', sans-serif;
 }
 
 /* ----------------------------------
@@ -276,23 +275,19 @@ body {
 .flipbook .page {
   background: white;
   display: flex;
-  -webkit-display: flex;
   flex-direction: column;
-  -webkit-flex-direction: column;
   justify-content: center;
-  -webkit-justify-content: center;
   align-items: center;
-  -webkit-align-items: center;
   gap: 10px;
   border: 1px solid rgba(0, 0, 0, 0.11);
   position: relative;
-  font-family: "Alcantara Road", sans-serif;
+  font-family: 'Fredoka One', sans-serif;
 }
 
 .flipbook .page small {
   font-size: 14px;
   margin-bottom: 10px;
-  font-family: "Alcantara Road", sans-serif;
+  font-family: 'Fredoka One', sans-serif;
 }
 
 /* ----------------------------------
@@ -320,9 +315,7 @@ body {
   top: 7px;
   right: 7px;
   display: flex;
-  -webkit-display: flex;
   align-items: center;
-  -webkit-align-items: center;
   gap: 5px;
 }
 
@@ -331,7 +324,7 @@ body {
   font-weight: bold;
   color: #fff;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-  font-family: "Alcantara Road", sans-serif;
+  font-family: 'Fredoka One', sans-serif;
 }
 
 .flipbook .hard.front-cover .instructions img.arrow {
@@ -342,7 +335,9 @@ body {
   -webkit-filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.9));
 }
 
-/* Close Book State */
+/* ----------------------------------
+   Close Book State
+---------------------------------- */
 .flipbook .hard.close-book {
   opacity: 0;
 }
@@ -370,18 +365,18 @@ body {
   
   .flipbook .hard {
     font-size: 7px;
-    font-family: "Alcantara Road", sans-serif;
+    font-family: 'Fredoka One', sans-serif;
   }
   
   .flipbook .page {
     font-size: 7px;
-    font-family: "Alcantara Road", sans-serif;
+    font-family: 'Fredoka One', sans-serif;
   }
   
   .flipbook .page small {
     font-size: 4px;
     margin-bottom: 10px;
-    font-family: "Alcantara Road", sans-serif;
+    font-family: 'Fredoka One', sans-serif;
   }
   
   .flipbook .hard small {
@@ -389,7 +384,7 @@ body {
     font-weight: lighter;
     opacity: 0.7;
     font-size: 4px;
-    font-family: "Alcantara Road", sans-serif;
+    font-family: 'Fredoka One', sans-serif;
   }
   
   .flipbook .hard.front-cover .instructions span {
@@ -397,7 +392,7 @@ body {
     font-weight: bold;
     color: #fff;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    font-family: "Alcantara Road", sans-serif;
+    font-family: 'Fredoka One', sans-serif;
   }
   
   .flipbook .hard.front-cover .instructions img.arrow {
