@@ -21,6 +21,38 @@ body {
   overflow-x: hidden;
 }
 
+/* Fullscreen unlock screen overlay */
+#unlock-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 182, 193, 0.7); /* Light pink and see-through */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 2rem;
+  font-family: 'Fredoka One', sans-serif;
+  z-index: 10000;
+  opacity: 1;
+  transition: opacity 1s ease-out;
+}
+
+/* Fade out effect on unlock */
+#unlock-screen.fade-out {
+  opacity: 0;
+}
+
+/* Mobile adjustments for small screens */
+@media screen and (max-width: 481px) {
+  #unlock-screen {
+    font-size: 1.5rem;
+  }
+}
+
+
 /* ------------------------------------------------
    Transition Defaults for SVG Flower Elements
    ------------------------------------------------ */
@@ -214,9 +246,8 @@ body {
   -webkit-border-radius: 5px;
 }
 
-/* ----------------------------------
-   Flipbook Container & Element
----------------------------------- */
+
+/* Initially hidden flipbook container that will fade in when unlocked */
 .flipbook-container {
   position: fixed;
   top: 50%;
@@ -227,8 +258,14 @@ body {
   box-sizing: border-box;
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
-  transition: width 0.5s ease-in-out, transform 0.5s ease-in-out;
-  -webkit-transition: width 0.5s ease-in-out, -webkit-transform 0.5s ease-in-out;
+  transition: width 0.5s ease-in-out, transform 0.5s ease-in-out, opacity 1s ease-in-out;
+  -webkit-transition: width 0.5s ease-in-out, -webkit-transform 0.5s ease-in-out, opacity 1s ease-in-out;
+  opacity: 0; /* Hidden until unlocked */
+}
+
+/* When the unlocked class is added, fade the container in */
+.flipbook-container.unlocked {
+  opacity: 1;
 }
 
 .flipbook {
@@ -254,10 +291,10 @@ body {
   border: none;
   border-radius: 4px;
   -webkit-border-radius: 4px;
-  -webkit-box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4),
-                      0 4px 15px rgba(255, 105, 180, 0.6);
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4),
-              0 4px 15px rgba(255, 105, 180, 0.6);
+  -webkit-box-shadow: inset 0 0 10px rgba(255,255,255,0.4),
+                      0 4px 15px rgba(255,105,180,0.6);
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.4),
+              0 4px 15px rgba(255,105,180,0.6);
   position: relative;
   font-family: 'Fredoka One', sans-serif;
 }
@@ -280,7 +317,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.11);
+  border: 1px solid rgba(0,0,0,0.11);
   position: relative;
   font-family: 'Fredoka One', sans-serif;
 }
@@ -303,8 +340,8 @@ body {
   margin: auto;
   border-radius: 10px;
   -webkit-border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   object-fit: contain;
 }
 
@@ -332,8 +369,8 @@ body {
   width: 20px;
   height: 20px;
   opacity: 1;
-  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.9));
-  -webkit-filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.9));
+  filter: drop-shadow(0 0 10px rgba(0,0,0,0.9));
+  -webkit-filter: drop-shadow(0 0 10px rgba(0,0,0,0.9));
 }
 
 /* ----------------------------------
@@ -401,10 +438,11 @@ body {
     width: 5px;
     height: 5px;
     opacity: 1;
-    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.9));
-    -webkit-filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.9));
+    filter: drop-shadow(0 0 10px rgba(0,0,0,0.9));
+    -webkit-filter: drop-shadow(0 0 10px rgba(0,0,0,0.9));
   }
 }
+
 
 /* ----------------------------------
    Mobile Adjustments (max-width: 600px)
