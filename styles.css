@@ -1,17 +1,27 @@
-/* Basic Reset & Global Styles */
+/* =====================================================
+   FORMATTED CSS WITH WEBKIT PREFIXES & "ALCANTARA ROAD" FONT
+   (Remember to load the "Alcantara Road" font in your HTML)
+   ===================================================== */
+
+/* ----------------------------------
+   Basic Reset & Global Styles
+---------------------------------- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   background: #111;
-  font-family: sans-serif;
+  font-family: "Alcantara Road", sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* Transition defaults for SVG flower elements to ensure smooth animations across browsers */
+/* ------------------------------------------------
+   Transition Defaults for SVG Flower Elements
+   ------------------------------------------------ */
 #stem-path {
   transition: stroke-dashoffset 3s ease-out;
   -webkit-transition: stroke-dashoffset 3s ease-out;
@@ -27,25 +37,33 @@ body {
   -webkit-transition: -webkit-transform 0.5s ease-out;
 }
 
-/* Flower Field Styles */
+/* ----------------------------------
+   Flower Field Styles
+---------------------------------- */
 #flower-field {
   position: relative;
   width: 100%;
   min-height: 100vh;
 }
+
 .flower-container {
   width: 100px;
   height: 315px; /* Increased from 275px to 315px */
   transform-origin: bottom center;
   -webkit-transform-origin: bottom center;
+  z-index: 20;
 }
+
 .flower-svg {
   width: 100%;
   height: auto;
   display: block;
   max-width: 100px;
 }
-/* Global Restart Button Styling */
+
+/* ----------------------------------
+   Global Restart Button Styling
+---------------------------------- */
 #restartBtn {
   position: fixed;
   top: 20px;
@@ -60,11 +78,14 @@ body {
   transition: background 0.3s ease;
   -webkit-transition: background 0.3s ease;
 }
+
 #restartBtn:hover {
   background: #666;
 }
 
-/* Butterfly Styles & Animations */
+/* ----------------------------------
+   Butterfly Styles & Animations
+---------------------------------- */
 #butterfly-container {
   position: fixed;
   top: 0;
@@ -72,9 +93,9 @@ body {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  /* Increased z-index so that butterflies are rendered on top */
   z-index: 20;
 }
+
 .butterfly {
   position: absolute;
   width: 50px;
@@ -82,12 +103,12 @@ body {
   background: url('butterfly.svg') no-repeat center center;
   background-size: contain;
   pointer-events: none;
-  /* Added glow effect */
   filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
   -webkit-filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
   animation: flyButterfly linear infinite;
   -webkit-animation: flyButterfly linear infinite;
 }
+
 @keyframes flyButterfly {
   0% {
     transform: translate(0, 0) rotate(0deg);
@@ -99,6 +120,7 @@ body {
     transform: translate(0, 0) rotate(0deg);
   }
 }
+
 @-webkit-keyframes flyButterfly {
   0% {
     -webkit-transform: translate(0, 0) rotate(0deg);
@@ -111,84 +133,61 @@ body {
   }
 }
 
-/* Utility for Horizontal Flip */
+/* ----------------------------------
+   Utility for Horizontal Flip
+---------------------------------- */
 .flip-horizontal {
   transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
 }
 
-/* Carousel Styles */
+/* ----------------------------------
+   Carousel Styles (Consolidated)
+---------------------------------- */
 #carousel {
-  position: absolute;
-  top: -120px;       /* Adjust this value to position the carousel above the letter as needed */
+  position: fixed;
+  top: -120px; /* Adjust position as needed */
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
-  height: 100px;
-  overflow: hidden;
-  z-index: 15;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-}
-
-/* Carousel Styles */
-#carousel {
-  overflow: hidden;
-  z-index: 15;
-  opacity: 1;  /* visibility will be managed by JS */
-}
-
-/* All carousel item containers are absolutely positioned relative to the #carousel container. */
-#carousel div {
-  position: absolute;
-  transition: transform 400ms, left 400ms, opacity 400ms, z-index 0s;
-  opacity: 1;
-}
-
-/* Image styles */
-#carousel div img {
-  width: 400px;
-  transition: width 400ms;
-  -webkit-user-drag: none;
-  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-  border-radius: 10px;
-}
-
-/* Example CSS for carousel items */
-#carousel {
-  overflow: hidden;
-  z-index: 15;
-}
-
-/* --- Carousel Container --- */
-#carousel {
-  /* Override any previous carousel definitions */
-  position: fixed;  /* This is set via JS */
-  width: 400px;
-  height: 400px;
-  overflow: visible;  /* Allow items inside to be visible */
-  z-index: 15;
-  opacity: 1;         /* Ensure it is visible */
-  background: transparent; /* You can set a background color if desired */
-  
-  /* Flex layout for horizontal grouping */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 5px;
-}
-
-/* ----- Carousel Container and Track ----- */
-#carousel {
-  background: transparent;
-  /* Ensure container settings are enforced */
-  position: fixed;
+  -webkit-transform: translateX(-50%);
   width: 500px;
   height: 250px;
   overflow: hidden;
   z-index: 15;
+  background: transparent;
+  opacity: 1;
+  display: flex;
+  -webkit-display: flex;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  align-items: center;
+  -webkit-align-items: center;
+  gap: 5px;
+  transition: opacity 0.5s ease-in-out;
+  -webkit-transition: opacity 0.5s ease-in-out;
 }
 
+/* Carousel Item Containers */
+#carousel div {
+  position: absolute;
+  transition: transform 400ms, left 400ms, opacity 400ms, z-index 0s;
+  -webkit-transition: -webkit-transform 400ms, left 400ms, opacity 400ms, z-index 0s;
+  opacity: 1;
+}
+
+/* Carousel Images */
+#carousel div img {
+  width: 400px;
+  transition: width 400ms;
+  -webkit-transition: width 400ms;
+  -webkit-user-drag: none;
+  box-shadow: 0px 20px 30px -10px rgb(38, 57, 77);
+  -webkit-box-shadow: 0px 20px 30px -10px rgb(38, 57, 77);
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+}
+
+/* --- Carousel Container & Track --- */
 #carousel-track {
   position: relative;
   width: 500px;
@@ -199,127 +198,227 @@ body {
   transform: translateX(0);
 }
 
-/* ----- Carousel Items ----- */
-/* All items are created by JS in the track. Their positioning is set inline,
-   but you can add additional styling here: */
+/* Carousel Items */
 #carousel-track div {
   position: absolute;
-  border-radius: 5px; /* Optional rounding */
+  border-radius: 5px;
   -webkit-transition: all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
   transition: all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-/* Images within each carousel item */
 #carousel-track div img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
   border-radius: 5px;
+  -webkit-border-radius: 5px;
 }
 
-/* The container centers itself and scales responsively */
+/* ----------------------------------
+   Flipbook Container & Element
+---------------------------------- */
 .flipbook-container {
   position: fixed;
   top: 50%;
   left: 50%;
-  max-width: 90vw;       /* Maximum width for larger screens */
-  max-height: 80vh;
+  max-width: 60vw;
+  max-height: 60vh;
   padding: 10px;
-  box-sizing: border-box;  /* Ensure padding is included in the width calculation */
+  box-sizing: border-box;
   transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
   transition: width 0.5s ease-in-out, transform 0.5s ease-in-out;
-
+  -webkit-transition: width 0.5s ease-in-out, -webkit-transform 0.5s ease-in-out;
 }
 
-/* The flip element inside always takes 100% of the container’s width */
 .flipbook {
   position: relative;
-  width: 90vw; 
-  height: 80vh;
+  width: 60vw; 
+  height: 60vh;
 }
 
+/* ----------------------------------
+   Hard Pages Styling (Glitter Effect)
+---------------------------------- */
 .flipbook .hard {
-    background: #c0392b !important;
-    color: #fff;
-    font-weight: bold;
-    border: none; 
+  background: #ff69b4 !important;
+  background-image: -webkit-radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px),
+                    -webkit-radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px),
+                    radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -webkit-box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4),
+                      0 4px 15px rgba(255, 105, 180, 0.6);
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4),
+              0 4px 15px rgba(255, 105, 180, 0.6);
+  position: relative;
+  font-family: "Alcantara Road", sans-serif;
 }
 
-.flipbook .hard small{
-	font-style: italic;
-	font-weight: lighter;
-	opacity: 0.7;
-	font-size: 14px;
+.flipbook .hard small {
+  font-style: italic;
+  font-weight: lighter;
+  opacity: 0.7;
+  font-size: 14px;
+  font-family: "Alcantara Road", sans-serif;
 }
 
+/* ----------------------------------
+   Soft Page Styling
+---------------------------------- */
 .flipbook .page {
   background: white;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  -webkit-display: flex;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  -webkit-align-items: center;
   gap: 10px;
   border: 1px solid rgba(0, 0, 0, 0.11);
+  position: relative;
+  font-family: "Alcantara Road", sans-serif;
 }
 
-.page img{
-	width: 70%;
-	object-fit: cover;
-	margin: auto;
-}
-
-.flipbook .page small{
-	font-size: 14px;
+.flipbook .page small {
+  font-size: 14px;
   margin-bottom: 10px;
+  font-family: "Alcantara Road", sans-serif;
 }
 
+/* ----------------------------------
+   Image Styling for Pages
+---------------------------------- */
+.page img {
+  max-width: 80%;
+  max-height: 80%;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: auto;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  object-fit: contain;
+}
+
+/* ----------------------------------
+   Front Cover Instructions
+---------------------------------- */
+.flipbook .hard.front-cover .instructions {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  display: flex;
+  -webkit-display: flex;
+  align-items: center;
+  -webkit-align-items: center;
+  gap: 5px;
+}
+
+.flipbook .hard.front-cover .instructions span {
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  font-family: "Alcantara Road", sans-serif;
+}
+
+.flipbook .hard.front-cover .instructions img.arrow {
+  width: 20px;
+  height: 20px;
+  opacity: 1;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.9));
+  -webkit-filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.9));
+}
+
+/* Close Book State */
+.flipbook .hard.close-book {
+  opacity: 0;
+}
+
+/* ----------------------------------
+   Mobile Adjustments (max-width: 481px)
+---------------------------------- */
 @media screen and (max-width: 481px) {
-  /* The container centers itself and scales responsively */
   .flipbook-container {
     position: fixed;
-    max-width: 90vw;       /* Maximum width for larger screens */
+    max-width: 90vw;
     max-height: 600px;
     height: 40vh;
     padding: 10px;
+    box-sizing: border-box;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
   }
-
-  /* The flip element inside always takes 100% of the container’s width */
+  
   .flipbook {
     position: relative;
     width: 90vw; 
     height: 40vh;
   }
-
-  .flipbook .page small{
+  
+  .flipbook .hard {
     font-size: 7px;
-      margin-bottom: 10px;
+    font-family: "Alcantara Road", sans-serif;
   }
-
-  .flipbook .hard small{
+  
+  .flipbook .page {
+    font-size: 7px;
+    font-family: "Alcantara Road", sans-serif;
+  }
+  
+  .flipbook .page small {
+    font-size: 4px;
+    margin-bottom: 10px;
+    font-family: "Alcantara Road", sans-serif;
+  }
+  
+  .flipbook .hard small {
     font-style: italic;
     font-weight: lighter;
     opacity: 0.7;
-    font-size: 7px;
+    font-size: 4px;
+    font-family: "Alcantara Road", sans-serif;
   }
-
+  
+  .flipbook .hard.front-cover .instructions span {
+    font-size: 4px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    font-family: "Alcantara Road", sans-serif;
+  }
+  
+  .flipbook .hard.front-cover .instructions img.arrow {
+    width: 5px;
+    height: 5px;
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.9));
+    -webkit-filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.9));
+  }
 }
-/* Smooth transitions are defined inline via JS (transition: all 0.6s ease),
-   but you could also add additional rules here if needed. */
 
-
-/* Smooth transitions are defined inline via JS (transition: all 0.6s ease),
-   but you could also add additional rules here if needed. */
-
-/* Mobile Adjustments */
+/* ----------------------------------
+   Mobile Adjustments (max-width: 600px)
+---------------------------------- */
 @media screen and (max-width: 600px) {
-  /* Adjust flower dimensions on mobile */
   .flower-container {
     width: 80px;
     height: 158px;  /* Increased from 138px to 158px */
   }
+  
   .flower-svg {
     max-width: 80px;
   }
-
 }

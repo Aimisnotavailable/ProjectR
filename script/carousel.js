@@ -17,8 +17,7 @@ We want five visible slots (offsets: -2, -1, 0, 1, 2),
 with one extra item (offset 3) for a seamless looping effect.
 */
 
-// Updated predefined slot layout information for a 600px-wide container.
-// These numbers display landscape (rectangular) images.
+// Predefined slot layout information for a 600px-wide container.
 const slotLayouts = {
   "-2": { left: 0,   top: 30,  width: 120, height: 68, opacity: 0.6, zIndex: 1 },
   "-1": { left: 20,  top: 20,  width: 160, height: 90, opacity: 0.8, zIndex: 2 },
@@ -63,13 +62,13 @@ function createCarouselItems(track) {
     item.style.zIndex = layout.zIndex;
     // Smooth easing transitions.
     item.style.transition = "all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)";
-    
+
     const img = document.createElement("img");
     img.src = fullImages[getImageIndex(offset)];
     img.style.width = "100%";
     img.style.height = "100%";
     img.style.objectFit = "cover";
-    
+
     item.appendChild(img);
     track.appendChild(item);
     carouselItems.push(item);
@@ -130,8 +129,10 @@ function insertCarouselAnimationStyles() {
 /**
  * spawnCarousel()
  * Creates, inserts, positions, and animates the carousel component.
+ *
  * The carousel container maintains a maximum width of 600px and its center is
- * aligned with the center of the viewport.
+ * aligned with the center of the viewport. Its vertical position is set dynamically
+ * relative to the letter-card element.
  */
 export function spawnCarousel() {
   console.log("spawnCarousel() called.");
@@ -151,15 +152,19 @@ export function spawnCarousel() {
 
   carousel.id = "carousel";
   carousel.style.position = "fixed";
-  carousel.style.width = "600px";   // Maximum container width.
-  carousel.style.height = "160px";  // Container height adjusted for landscape slots.
+  carousel.style.width = "600px";    // Maximum container width.
+  carousel.style.height = "160px";   // Container height adjusted for landscape slots.
 
   // Horizontal centering: center the carousel based on viewport width.
-  carousel.style.left = (window.innerWidth / 2 - 300) + "px"; // 600/2 = 300
-  
-  // Vertical positioning: set the carousel's bottom edge 50px above letter-card's top.
+  carousel.style.left = (window.innerWidth / 2 - 300) + "px"; // (600 / 2 = 300)
+
+  // Vertical positioning: set the carousel's top edge relative to the letter-card.
   const letterRect = letter.getBoundingClientRect();
-  carousel.style.top = (letterRect.top - 20 - 160) + "px";
+  if (window.innerWidth <= 768) {  // for smaller screens
+    carousel.style.top = (letterRect.top - 20 - 160) + "px";
+  } else { // for larger screens
+    carousel.style.top = (letterRect.top - 20 - 100) + "px";
+  }
 
   carousel.style.overflow = "hidden";
   carousel.style.zIndex = "15";
@@ -178,9 +183,10 @@ export function spawnCarousel() {
 
   carousel.appendChild(track);
   document.body.appendChild(carousel);
-  
+
   console.log("spawnCarousel: Carousel appended at top:", carousel.style.top, "left:", carousel.style.left);
 
+  // Clear the previous carousel items, then create new ones.
   carouselItems = [];
   createCarouselItems(track);
 

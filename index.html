@@ -112,42 +112,113 @@
     <!-- (Add more flower containers as needed) -->
   </div>
 
-    <div class="flipbook-container">
-      <div class="flipbook closed">
-        <div class="hard">
-          My Pokemon Gallery <small>~ HankTheTank</small>
+  <div class="flipbook-container">
+    <div class="flipbook closed" id="letter-card">
+      
+      <!-- Page 1: Front Cover (with instruction) -->
+      <div class="hard front-cover">
+        <div class="instructions">
+          <span>Hold here then swipe to the left</span>
+          <img class="arrow" src="images/arrow.png" alt="arrow">
         </div>
-        <div class="hard"></div>
-        <div>
-          <small>Lets Look At Some Amazing Pokemon ❤️</small>
-          <small>Gotta Catch 'Em All</small>
-        </div>
-        <div>
-          <img src="images/img-1.png" alt="Charmandar image" />
-          <small> Charmandar </small>
-        </div>
-        <div>
-          <img src="images/img-2.png" alt="Arbok image" />
-          <small> Arbok </small>
-        </div>
-        <div>
-          <img src="images/img-3.png" alt="Pikachu image" />
-          <small> Pikachu </small>
-        </div>
-        <div>
-          <img src="images/img-4.png" alt="Mew image" />
-          <small> Mew </small>
-        </div>
-        <div>
-          <img src="images/img-5.png" alt="Darkrai image" />
-          <small> Darkrai </small>
-        </div>
-        <div class="hard"></div>
-        <div class="hard">
-          Thank You <small>~ HankTheTank</small>
-        </div>
+         <small>~ Aim?~</small>
+        <small>~ NO! THIS IS PATRICK ~</small>
+      </div>
+      
+      <!-- Page 2: Inner Cover (no instructions) -->
+      <div class="hard inner-cover">
+        <small>~ A million pictures of you  ~</small>
+        <!-- Additional inner cover content can go here if desired -->
+      </div>
+      
+      <!-- Pages 3 to 24: Content Pages -->
+      <div class="page">
+        <img src="images/0.png" alt="Content Image 0">
+      </div>
+      <div class="page">
+        <img src="images/1.png" alt="Content Image 1">
+      </div>
+      <div class="page">
+        <img src="images/2.png" alt="Content Image 2">
+      </div>
+      <div class="page" id="open-book">
+        <img src="images/3.png" alt="Content Image 3">
+      </div>
+      <div class="page">
+        <img src="images/4.png" alt="Content Image 4">
+      </div>
+      <div class="page">
+        <img src="images/5.png" alt="Content Image 5">
+      </div>
+      <div class="page">
+        <img src="images/6.png" alt="Content Image 6">
+      </div>
+      <div class="page">
+        <img src="images/7.png" alt="Content Image 7">
+      </div>
+      <div class="page">
+        <img src="images/8.png" alt="Content Image 8">
+      </div>
+      <div class="page">
+        <img src="images/9.png" alt="Content Image 9">
+      </div>
+      <div class="page">
+        <img src="images/10.png" alt="Content Image 10">
+      </div>
+      <div class="page">
+        <img src="images/11.png" alt="Content Image 11">
+      </div>
+      <div class="page">
+        <img src="images/12.png" alt="Content Image 12">
+      </div>
+      <div class="page">
+        <img src="images/13.png" alt="Content Image 13">
+      </div>
+      <div class="page">
+        <img src="images/14.png" alt="Content Image 14">
+      </div>
+      <div class="page">
+        <img src="images/15.png" alt="Content Image 15">
+      </div>
+      <div class="page">
+        <img src="images/16.png" alt="Content Image 16">
+      </div>
+      <div class="page">
+        <img src="images/17.png" alt="Content Image 17">
+      </div>
+      <div class="page">
+        <img src="images/18.png" alt="Content Image 18">
+      </div>
+      <div class="page">
+        <img src="images/19.png" alt="Content Image 19">
+      </div>
+      <div class="page">
+        <img src="images/20.png" alt="Content Image 20">
+      </div>
+      <div class="page">
+        <img src="images/21.png" alt="Content Image 21">
+      </div>
+      
+      <!-- Page 25: Inner Back Cover (no instructions) -->
+      <div class="hard inner-back-cover">
+        <!-- Optional inner back cover content -->
+      </div>
+      
+      <!-- Page 26: Back Cover -->
+      <div class="hard back-cover">
+        Thank You <small>~ HankTheTank</small>
+      </div>
+
+      <!-- Page 27: Inner Back Cover (no instructions) -->
+      <div class="hard close-book" >
+        <!-- Optional inner back cover content -->
+      </div>
+      
+      <!-- Page 28: Back Cover -->
+      <div class="hard close-book" id="close-book">
       </div>
     </div>
+
   
   <script src="./script/jquery.js"></script>
   <script src="./script/turn.js"></script>
@@ -155,6 +226,12 @@
     $('.flipbook').turn();
 
   </script>
+
+  <script>
+    setInterval(() => {
+    }, 100); // Checks every 10 milliseconds
+  </script>
+
   <!-- Butterfly Elements -->
   <div id="butterfly-container"></div>
 

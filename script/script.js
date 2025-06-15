@@ -61,10 +61,29 @@ function closeLetter() {
   despawnCarousel();
 }
 
-letterCard.addEventListener("pointerdown", () => {
-  if (letterCard.classList.contains("open")) {
-    closeLetter();
-  } else {
-    openLetter();
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  const letterCard = document.getElementById("letter-card");
+
+  const observer = new MutationObserver(() => {
+    // Always read the reference fresh from the DOM
+    const openBook = document.getElementById("open-book");
+    const closeBook = document.getElementById("close-book")
+
+    // When openBook is present and letterCard is not already open, open it.
+    if (openBook && !letterCard.classList.contains("open")) {
+      letterCard.classList.add("open");
+      openLetter();
+      console.log("open-book detected: letterCard set to open.");
+    }
+
+    if (closeBook && letterCard.classList.contains("open")) {
+      letterCard.classList.add("open");
+      closeLetter();
+      console.log("close-book detected: letterCard set to open.");
+    }
+
+  });
+  
+  // Observe changes in the entire document subtree.
+  observer.observe(document.body, { childList: true, subtree: true });
 });
