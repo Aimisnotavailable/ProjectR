@@ -1,14 +1,14 @@
 // ---------- Configuration ----------
 // Full array of image URLs (adjust as needed)
 const fullImages = [
-  "https://cdn.pixabay.com/photo/2017/08/15/08/23/stars-2643089__340.jpg",
-  "https://cdn.pixabay.com/photo/2012/11/28/11/28/rocket-launch-67723__340.jpg",
-  "https://cdn.pixabay.com/photo/2018/08/15/13/10/galaxy-3608029_960_720.jpg",
-  "https://cdn.pixabay.com/photo/2020/06/17/09/28/wormhole-5308810__340.jpg",
-  "https://cdn.pixabay.com/photo/2016/11/18/22/58/stars-1837306__340.jpg",
-  "https://cdn.pixabay.com/photo/2017/02/09/09/11/starry-sky-2051448__340.jpg",
-  "https://cdn.pixabay.com/photo/2011/12/15/11/37/galaxy-11188__340.jpg",
-  "https://cdn.pixabay.com/photo/2011/12/15/11/32/pismis-24-11186__340.jpg"
+  "/carousel/0.png",
+  "/carousel/1.png",
+  "/carousel/2.png",
+  "/carousel/3.png",
+  "/carousel/4.png",
+  "/carousel/5.png",
+  "/carousel/6.png",
+  "/carousel/7.png"
 ];
 const totalImages = fullImages.length;
 
@@ -195,7 +195,6 @@ export function spawnCarousel() {
     shiftTrackForward();
   }, 2000);
 
-  console.log("spawnCarousel() completed.");
 }
 
 /**
