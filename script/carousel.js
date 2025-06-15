@@ -1,14 +1,14 @@
 // ---------- Configuration ----------
 // Full array of image URLs (adjust as needed)
 const fullImages = [
-  "ProjectR/carousel/0.png",
-  "ProjectR/carousel/1.png",
-  "ProjectR/carousel/2.png",
-  "ProjectR/carousel/3.png",
-  "ProjectR/carousel/4.png",
-  "ProjectR/carousel/5.png",
-  "ProjectR/carousel/6.png",
-  "ProjectR/carousel/7.png"
+  "/carousel/0.png",
+  "/carousel/1.png",
+  "/carousel/2.png",
+  "/carousel/3.png",
+  "/carousel/4.png",
+  "/carousel/5.png",
+  "/carousel/6.png",
+  "/carousel/7.png"
 ];
 const totalImages = fullImages.length;
 
