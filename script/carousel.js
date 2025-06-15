@@ -1,14 +1,14 @@
 // ---------- Configuration ----------
 // Full array of image URLs (adjust as needed)
 const fullImages = [
-  "/carousel/0.png",
-  "/carousel/1.png",
-  "/carousel/2.png",
-  "/carousel/3.png",
-  "/carousel/4.png",
-  "/carousel/5.png",
-  "/carousel/6.png",
-  "/carousel/7.png"
+  "./carousel/0.png",
+  "./carousel/1.png",
+  "./carousel/2.png",
+  "./carousel/3.png",
+  "./carousel/4.png",
+  "./carousel/5.png",
+  "./carousel/6.png",
+  "./carousel/7.png"
 ];
 const totalImages = fullImages.length;
 
@@ -27,11 +27,14 @@ const slotLayouts = {
   "3": { left: 600, top: 30,  width: 80,  height: 45, opacity: 0,   zIndex: 0 } // Extra off-screen slot
 };
 
-// Global variable to hold the current selected image index. 
+// Global variable to hold the current selected image index.
 let selectedIndex = 2;
 
 // Global array for carousel item DOM elements.
 let carouselItems = [];
+
+// Global variable to store the interval ID.
+let carouselInterval = null;
 
 /**
  * getImageIndex(offset)
@@ -62,6 +65,7 @@ function createCarouselItems(track) {
     item.style.zIndex = layout.zIndex;
     // Smooth easing transitions.
     item.style.transition = "all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)";
+    item.style.webkitTransition = "all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1)";
 
     const img = document.createElement("img");
     img.src = fullImages[getImageIndex(offset)];
@@ -191,17 +195,24 @@ export function spawnCarousel() {
   createCarouselItems(track);
 
   // Autoplay: shift carousel items every 2 seconds.
-  setInterval(() => {
+  carouselInterval = setInterval(() => {
     shiftTrackForward();
   }, 2000);
-
 }
 
 /**
  * despawnCarousel()
- * Removes the carousel component from the DOM.
+ * Removes the carousel component from the DOM and clears the shift interval.
  */
 export function despawnCarousel() {
+  // Clear the interval if it's running.
+  if (carouselInterval !== null) {
+    clearInterval(carouselInterval);
+    carouselInterval = null;
+    console.log("despawnCarousel: Carousel interval cleared.");
+  }
+  
+  // Remove carousel element if it exists.
   const carousel = document.getElementById("carousel");
   if (carousel) {
     carousel.remove();
