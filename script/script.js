@@ -21,10 +21,33 @@ resetAllFlowers();
 const letterAudio = new Audio('/audio/one_of_my_favorite_sao_bgm.mp3'); // update the path as needed
 letterAudio.loop = true; // Set to loop if you want the song to continue while the letter is open
 
+// Flag to know if audio context is unlocked
+let audioUnlocked = false;
+
+// One-time event listener to unlock the audio context through a direct user gesture.
+function unlockAudioContext() {
+  // Attempt to play the audio as a dummy call.
+  letterAudio.play()
+    .then(() => {
+      letterAudio.pause();
+      letterAudio.currentTime = 0;
+      audioUnlocked = true;
+      console.log("Audio context unlocked!");
+    })
+    .catch(error => console.error("Error unlocking audio context:", error));
+  
+  // Remove the listeners so this runs only once.
+  document.removeEventListener("touchstart", unlockAudioContext, false);
+  document.removeEventListener("click", unlockAudioContext, false);
+}
+document.addEventListener("touchstart", unlockAudioContext, false);
+document.addEventListener("click", unlockAudioContext, false);
+
 function openLetter() {
   letterCard.classList.add("open");
 
   // Start playing the letter music from the beginning.
+  // Since audioUnlocked is true (after the initial user gesture), this will now succeed.
   letterAudio.currentTime = 0;
   letterAudio.play().catch(error => {
     console.error("Error playing letter audio:", error);
@@ -138,4 +161,3 @@ document.addEventListener("DOMContentLoaded", () => {
   // Start observing DOM mutations in the entire document subtree.
   observer.observe(document.body, { childList: true, subtree: true });
 });
-
