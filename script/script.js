@@ -18,7 +18,7 @@ adjustFlowerPositions();
 resetAllFlowers();
 
 // Global audio object for the letter
-const letterAudio = new Audio('/audio/one_of_my_favorite_sao_bgm.mp3'); // update the path as needed
+const letterAudio = new Audio('./audio/one_of_my_favorite_sao_bgm.mp3'); // update the path as needed
 letterAudio.loop = true; // Set to loop if you want the song to continue while the letter is open
 
 // Flag to know if audio context is unlocked
