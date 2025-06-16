@@ -18,15 +18,14 @@ adjustFlowerPositions();
 resetAllFlowers();
 
 // Global audio object for the letter
-const letterAudio = new Audio('./audio/one_of_my_favorite_sao_bgm.mp3'); // update the path as needed
+const letterAudio = new Audio('./audio/one_of_my_favorite_sao_bgm.mp3'); // ensure this path is correct
 letterAudio.loop = true; // Set to loop if you want the song to continue while the letter is open
 
 // Flag to know if audio context is unlocked
 let audioUnlocked = false;
 
-// One-time event listener to unlock the audio context through a direct user gesture.
+// One-time event listener to unlock the audio context with a direct user gesture.
 function unlockAudioContext() {
-  // Attempt to play the audio as a dummy call.
   letterAudio.play()
     .then(() => {
       letterAudio.pause();
@@ -35,8 +34,8 @@ function unlockAudioContext() {
       console.log("Audio context unlocked!");
     })
     .catch(error => console.error("Error unlocking audio context:", error));
-  
-  // Remove the listeners so this runs only once.
+
+  // Remove these listeners so this runs only once.
   document.removeEventListener("touchstart", unlockAudioContext, false);
   document.removeEventListener("click", unlockAudioContext, false);
 }
@@ -46,15 +45,18 @@ document.addEventListener("click", unlockAudioContext, false);
 function openLetter() {
   letterCard.classList.add("open");
 
+  // Log whether the audio context is unlocked.
+  if (!audioUnlocked) {
+    console.warn("Audio context still locked even though openLetter is triggered!");
+  }
+
   // Start playing the letter music from the beginning.
-  // Since audioUnlocked is true (after the initial user gesture), this will now succeed.
   letterAudio.currentTime = 0;
   letterAudio.play().catch(error => {
     console.error("Error playing letter audio:", error);
   });
 
-  // Spawn the carousel outside the letter, 50px above it.
-  // Existing animations and butterfly spawn.
+  // Start animations and display elements.
   animateAllFlowers(() => {
     spawnButterfliesSequentially();
     spawnCarousel();
@@ -67,13 +69,13 @@ function closeLetter() {
 
   // Stop the letter music immediately.
   letterAudio.pause();
-  letterAudio.currentTime = 0; // Reset the song to the beginning
+  letterAudio.currentTime = 0;
 
   // Reset animations and cancel flower sway.
   resetAllFlowers();
   cancelContainerSwayAnimation();
 
-  // Remove all dynamically spawned butterflies.
+  // Remove dynamically spawned butterflies.
   butterflyContainer.innerHTML = "";
   document.querySelectorAll(".butterfly").forEach(butterfly => {
     butterfly.remove();
@@ -93,7 +95,7 @@ function closeLetter() {
     flower.setAttribute("class", "flower-container");
   });
   
-  // Despawn the carousel.
+  // Remove carousel element.
   despawnCarousel();
 }
 
@@ -103,35 +105,29 @@ document.addEventListener("DOMContentLoaded", () => {
   let isUnlocked = false;
   let firstTriggerHandled = false;
 
-  // Setup unlock screen click handler.
+  // Unlock screen click handler.
   if (unlockScreen) {
     unlockScreen.addEventListener("click", function () {
-      // Fade out the unlock screen.
       unlockScreen.classList.add("fade-out");
-      // Add the 'unlocked' class to flipbook-container to trigger its fade in.
       const flipbookContainer = document.querySelector(".flipbook-container");
       if (flipbookContainer) {
         flipbookContainer.classList.add("unlocked");
       }
-      // Mark that the user has unlocked the letter.
       isUnlocked = true;
-      // Remove the unlock screen after the CSS transition completes.
       setTimeout(() => {
         unlockScreen.remove();
-      }, 1000); // This duration should match your CSS fade-out transition.
+      }, 1000); // This should match your CSS transition duration.
     });
   }
 
   // MutationObserver to trigger openLetter/closeLetter actions.
   const observer = new MutationObserver(() => {
-    // Ignore the very first mutation event.
     if (!firstTriggerHandled) {
       firstTriggerHandled = true;
       console.log("Ignoring the first false alarm trigger.");
       return;
     }
     
-    // Only proceed if the letter is unlocked.
     if (!isUnlocked) {
       console.log("Not unlocked yet; ignoring open-letter trigger.");
       return;
@@ -141,23 +137,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const openBook = document.getElementById("open-book");
     const closeBook = document.getElementById("close-book");
 
-    // Trigger the open-letter handler if open-book exists and letterCard isn’t open.
     if (openBook && !letterCard.classList.contains("open")) {
       letterCard.classList.add("open");
       openLetter();
       console.log("open-book detected: letterCard set to open.");
     }
 
-    // Trigger the close-letter handler if close-book exists and letterCard is open.
     if (closeBook && letterCard.classList.contains("open")) {
       letterCard.classList.remove("open");
       closeLetter();
       console.log("close-book detected: letterCard set to close.");
-      // Refresh the page to reset everything including the unlock (or apply any reset logic you need)
       window.location.reload();
     }
   });
   
-  // Start observing DOM mutations in the entire document subtree.
   observer.observe(document.body, { childList: true, subtree: true });
 });
