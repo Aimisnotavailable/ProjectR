@@ -19,13 +19,14 @@ resetAllFlowers();
 
 // Global audio object for the letter
 const letterAudio = new Audio('/audio/one_of_my_favorite_sao_bgm.mp3'); // update the path as needed
-letterAudio.loop = true;
+letterAudio.loop = true; // Set to loop if you want the song to continue while the letter is open
 
-// Flag to know if the audio context is unlocked
+// Flag to know if audio context is unlocked
 let audioUnlocked = false;
 
-// One-time event listener to unlock the audio context via a direct user gesture
+// One-time event listener to unlock the audio context through a direct user gesture.
 function unlockAudioContext() {
+  // Attempt to play the audio as a dummy call.
   letterAudio.play()
     .then(() => {
       letterAudio.pause();
@@ -42,41 +43,18 @@ function unlockAudioContext() {
 document.addEventListener("touchstart", unlockAudioContext, false);
 document.addEventListener("click", unlockAudioContext, false);
 
-// Redundant function that verifies (or attempts again) to unlock audio if not already done.
-function ensureAudioUnlocked() {
-  if (!audioUnlocked) {
-    console.warn("Audio context not yet unlocked. Trying redundant unlock...");
-    letterAudio.play()
-      .then(() => {
-        letterAudio.pause();
-        letterAudio.currentTime = 0;
-        audioUnlocked = true;
-        console.log("Audio context unlocked on redundant attempt!");
-      })
-      .catch(error => {
-        console.error("Redundant unlock failed. Await further user interaction.", error);
-      });
-  }
-  return audioUnlocked;
-}
-
 function openLetter() {
   letterCard.classList.add("open");
 
-  // Redundant check: ensure audio context is unlocked via a previous direct gesture.
-  if (!ensureAudioUnlocked()) {
-    console.warn("Audio is still locked. Audio will not play until a user gesture unlocks it.");
-    // Optional: You can choose to show a UI message to the user instead of just logging the warning.
-    return;
-  }
-
-  // Play the letter music from the beginning.
+  // Start playing the letter music from the beginning.
+  // Since audioUnlocked is true (after the initial user gesture), this will now succeed.
   letterAudio.currentTime = 0;
   letterAudio.play().catch(error => {
     console.error("Error playing letter audio:", error);
   });
 
-  // Existing animations and butterfly spawn logic.
+  // Spawn the carousel outside the letter, 50px above it.
+  // Existing animations and butterfly spawn.
   animateAllFlowers(() => {
     spawnButterfliesSequentially();
     spawnCarousel();
@@ -140,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Remove the unlock screen after the CSS transition completes.
       setTimeout(() => {
         unlockScreen.remove();
-      }, 1000);
+      }, 1000); // This duration should match your CSS fade-out transition.
     });
   }
 
@@ -175,6 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
       letterCard.classList.remove("open");
       closeLetter();
       console.log("close-book detected: letterCard set to close.");
+      // Refresh the page to reset everything including the unlock (or apply any reset logic you need)
       window.location.reload();
     }
   });
